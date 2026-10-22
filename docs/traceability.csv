@@ -1,0 +1,30 @@
+Requirement,Use case,Screen,Component,Test
+FR-01,UC-01,"SCR-01, SCR-02, SCR-04","GameViewModel, LevelService",AC-01
+FR-02,UC-02,SCR-04,"GameRules, GameViewModel",AC-02
+FR-03,UC-02,SCR-04,"GameRules, GameViewModel",AC-03
+FR-04,UC-03,SCR-04,"GameRules, SessionRepository",AC-04
+FR-05,UC-03,"SCR-04, SCR-05","GameViewModel, SessionRepository",AC-05
+FR-06,UC-04,"SCR-04, SCR-05","GameViewModel, SessionRepository",AC-06
+FR-07,UC-02,"SCR-04, SCR-06",GameViewModel,AC-07
+FR-08,UC-04,"SCR-01, SCR-04, SCR-05",SessionRepository,AC-08
+FR-09,"UC-01, UC-02, UC-04","SCR-01, SCR-02, SCR-04, SCR-06","LevelService, LocalStore",AC-09
+FR-10,UC-02,"SCR-02, SCR-06","GameRules, ProgressRepository, SessionRepository",AC-10
+FR-11,UC-05,SCR-06,"SupabaseService, SecureSessionStore",AC-11
+FR-12,UC-05,SCR-06,"ScoreRepository, SupabaseService",AC-12
+FR-13,UC-06,SCR-07,"ScoreRepository, ScoreViewModel",AC-13
+FR-14,"UC-05, UC-06","SCR-06, SCR-07","ScoreViewModel, SupabaseService",AC-14
+FR-15,UC-07,"SCR-01, SCR-03",MenuViews,AC-15
+FR-16,UC-07,SCR-08,"SettingsRepository, GameViewModel",AC-16
+FR-17,UC-02,SCR-04,GameViewModel,AC-17
+NFR-01,UC-01,SCR-01,"MenuViews, LevelService",VF-01 Cold launch
+NFR-02,UC-02,SCR-04,"GameViewModel, GameRules",VF-02 Input latency
+NFR-03,UC-06,SCR-07,"ScoreRepository, SupabaseService",VF-03 Network timings
+NFR-04,"UC-01, UC-02, UC-04","SCR-02, SCR-04","LocalStore, SessionRepository",VF-04 First-launch offline
+NFR-05,UC-04,SCR-05,GameViewModel,VF-05 Lifecycle observation
+NFR-06,UC-05,SCR-06,"SecureSessionStore, SupabaseService",VF-06 Secret/storage audit
+NFR-07,"UC-05, UC-06","SCR-06, SCR-07",SupabaseService,VF-07 Authorization integration
+NFR-08,UC-01,SCR-01,Android manifest,VF-08 Permission walkthrough
+NFR-09,"UC-01, UC-02, UC-07","SCR-01, SCR-03, SCR-04, SCR-08","GameView, MenuViews",VF-09 Accessibility audit
+NFR-10,"UC-01, UC-02","SCR-02, SCR-04","GameView, MenuViews",VF-10 Viewport and text-size audit
+NFR-11,UC-06,SCR-07,ScoreRepository,VF-11 Network capture
+NFR-12,"UC-02, UC-04, UC-05","SCR-04, SCR-06","LocalStore, SessionRepository, ScoreRepository",VF-12 Fault injection

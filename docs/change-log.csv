@@ -1,0 +1,2 @@
+change_id,date,status,summary,rationale,requirements_affected,screens_affected,components_affected,tests_affected,author,reviewer
+CHG-001,2026-10-21,Proposed baseline,English-language classic Sokoban design with five original maps,User approved simple box-pushing rules and requested English throughout,FR-01 through FR-16,All,All,All,AI-assisted draft,Pending both team members

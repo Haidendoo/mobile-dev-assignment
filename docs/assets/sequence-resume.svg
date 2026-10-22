@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="940" viewBox="0 0 1200 940" role="img">
+<rect x="0" y="0" width="1200" height="940" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">Pause, save, and restore</text>
+<rect x="20.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="31.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">Player / OS</text>
+<line x1="110.0" y1="170" x2="110.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="510.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="521.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">ViewModel</text>
+<line x1="600.0" y1="170" x2="600.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="1000.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="1011.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">LocalStore</text>
+<line x1="1090.0" y1="170" x2="1090.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<line x1="110.0" y1="218" x2="600.0" y2="218" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="218" x2="589.1946347717678" y2="223.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="218" x2="589.1946347717678" y2="212.78041359066523" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="206.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Pause or background</text>
+<line x1="600.0" y1="291" x2="655.0" y2="291" stroke="#173B32" stroke-width="2"/>
+<line x1="655.0" y1="291" x2="655.0" y2="316" stroke="#173B32" stroke-width="2"/>
+<line x1="655.0" y1="316" x2="600.0" y2="316" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="316" x2="610.8053652282322" y2="310.78041359066526" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="316" x2="610.8053652282322" y2="321.21958640933474" stroke="#173B32" stroke-width="2"/>
+<text x="665.0" y="298.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Freeze timer / audio / input</text>
+<line x1="600.0" y1="364" x2="1090.0" y2="364" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="364" x2="1079.1946347717678" y2="369.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="364" x2="1079.1946347717678" y2="358.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="612.0" y="352.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Flush active time + current snapshot</text>
+<line x1="110.0" y1="437" x2="600.0" y2="437" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="437" x2="589.1946347717678" y2="442.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="437" x2="589.1946347717678" y2="431.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="425.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Reopen and choose Continue</text>
+<line x1="600.0" y1="510" x2="1090.0" y2="510" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="510" x2="1079.1946347717678" y2="515.2195864093347" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="510" x2="1079.1946347717678" y2="504.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="612.0" y="498.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Load one unfinished attempt</text>
+<line x1="1090.0" y1="583" x2="600.0" y2="583" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="583" x2="610.8053652282322" y2="577.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="583" x2="610.8053652282322" y2="588.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="612.0" y="571.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Saved session or missing/corrupt state</text>
+<line x1="600.0" y1="656" x2="655.0" y2="656" stroke="#173B32" stroke-width="2"/>
+<line x1="655.0" y1="656" x2="655.0" y2="681" stroke="#173B32" stroke-width="2"/>
+<line x1="655.0" y1="681" x2="600.0" y2="681" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="681" x2="610.8053652282322" y2="675.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="681" x2="610.8053652282322" y2="686.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="665.0" y="663.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Validate schema / level / positions</text>
+<line x1="600.0" y1="729" x2="110.0" y2="729" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="729" x2="120.80536522823212" y2="723.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="729" x2="120.80536522823212" y2="734.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="717.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Valid: resume; invalid: explicit discard</text>
+</svg>

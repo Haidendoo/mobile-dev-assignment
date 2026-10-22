@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img">
+<rect x="0" y="0" width="1200" height="680" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">In-app architecture</text>
+<rect x="35" y="112" width="320" height="125" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="53" y="150.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Views</text>
+<text x="53" y="186.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">GameView / MenuViews</text>
+<rect x="440" y="112" width="320" height="125" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="458" y="150.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">ViewModels</text>
+<text x="458" y="186.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">ChangeNotifier; intent + state</text>
+<rect x="855" y="112" width="310" height="125" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="873" y="150.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">GameRules</text>
+<text x="873" y="186.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Pure Dart board transitions</text>
+<line x1="355" y1="174" x2="440" y2="174" stroke="#173B32" stroke-width="2"/>
+<line x1="440" y1="174" x2="429.1946347717679" y2="179.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="440" y1="174" x2="429.1946347717679" y2="168.78041359066523" stroke="#173B32" stroke-width="2"/>
+<line x1="760" y1="174" x2="855" y2="174" stroke="#173B32" stroke-width="2"/>
+<line x1="855" y1="174" x2="844.1946347717678" y2="179.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="855" y1="174" x2="844.1946347717678" y2="168.78041359066523" stroke="#173B32" stroke-width="2"/>
+<rect x="90" y="350" width="470" height="150" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="108" y="388.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Local repositories</text>
+<text x="108" y="424.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Session / Progress / Settings</text>
+<text x="108" y="453.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">SQLite transactions; one save slot</text>
+<rect x="665" y="350" width="470" height="150" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="683" y="388.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">ScoreRepository</text>
+<text x="683" y="424.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Outbox / selected-level cache</text>
+<text x="683" y="453.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">SupabaseService + SecureSessionStore</text>
+<line x1="565" y1="237" x2="340" y2="350" stroke="#173B32" stroke-width="2"/>
+<line x1="340" y1="350" x2="347.313455534162" y2="340.4861486163681" stroke="#173B32" stroke-width="2"/>
+<line x1="340" y1="350" x2="351.99857266553494" y2="349.8149216655619" stroke="#173B32" stroke-width="2"/>
+<line x1="640" y1="237" x2="850" y2="350" stroke="#173B32" stroke-width="2"/>
+<line x1="850" y1="350" x2="838.0114339735776" y2="349.47627809849973" stroke="#173B32" stroke-width="2"/>
+<line x1="850" y1="350" x2="842.9580333113113" y2="340.2834828690833" stroke="#173B32" stroke-width="2"/>
+<text x="80" y="587.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Views do not access SQL, tokens, or remote RPC directly.</text>
+<text x="80" y="631.25" font-family="Arial, sans-serif" font-size="25" font-weight="400" fill="#486156">Rules never depend on rendering, storage, or connectivity.</text>
+</svg>

@@ -1,0 +1,509 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Forest Sokoban A01 API Design",
+    "version": "1.0.0-draft",
+    "description": "Design only. HTTPS Supabase Auth plus PostgREST JSON-object RPCs. No live project or credentials included. Rankings use steps, elapsed_ms, received_at, then submission UUID. Input score caps affect online eligibility, not offline gameplay."
+  },
+  "servers": [
+    {
+      "url": "https://PROJECT_REF.supabase.co",
+      "description": "Replace at A02 setup; placeholder, not deployed"
+    }
+  ],
+  "paths": {
+    "/auth/v1/signup": {
+      "post": {
+        "operationId": "createAnonymousGuest",
+        "summary": "SDK-managed anonymous sign-in",
+        "security": [
+          {
+            "ProjectKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "maxProperties": 0
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Supabase session; persist through an OS-secure adapter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Supabase Auth provider error; normalize to an auth error, not an RPC error"
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/submit_score": {
+      "post": {
+        "operationId": "submitScore",
+        "summary": "Submit one completed attempt idempotently",
+        "description": "Requires Auth JWT. Derive ownership from auth.uid(); unique (guest_id, submission_id). Same payload returns original receipt; changed payload under same ID raises PT409. Return a jsonb object rather than a set-returning row array.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "GuestJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreRequest"
+              },
+              "example": {
+                "p_submission_id": "20000000-0000-4000-8000-000000000001",
+                "p_level_id": "L01",
+                "p_level_version": 1,
+                "p_steps": 2,
+                "p_elapsed_ms": 3200
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Accepted or idempotent duplicate; received_at is stable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreReceipt"
+                },
+                "example": {
+                  "submission_id": "20000000-0000-4000-8000-000000000001",
+                  "status": "accepted",
+                  "is_personal_best": true,
+                  "received_at": "2026-10-21T08:00:04Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT / PT400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED / PT401; gateway auth codes may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN / PT403 or 42501",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND / PT404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT / PT409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Provider rate limit; inspect Retry-After",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Temporary server error; preserve local result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/get_leaderboard": {
+      "post": {
+        "operationId": "getLeaderboard",
+        "summary": "Public top 20 for one known level/version",
+        "description": "No auth user IDs in response. Unknown catalogue entry is PT404; known level with no receipts returns entries=[]. RPC returns one jsonb object.",
+        "security": [
+          {
+            "ProjectKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaderboardRequest"
+              },
+              "example": {
+                "p_level_id": "L01",
+                "p_level_version": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One best receipt per guest, at most 20 entries, stable ordering",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Leaderboard"
+                },
+                "example": {
+                  "level_id": "L01",
+                  "level_version": 1,
+                  "generated_at": "2026-10-21T08:00:05Z",
+                  "entries": [
+                    {
+                      "rank": 1,
+                      "display_name": "Guest-7F2A90C1D4",
+                      "steps": 2,
+                      "elapsed_ms": 3200
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT / PT400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND / PT404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Provider rate limit; inspect Retry-After",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Temporary server error; preserve local result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ProjectKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "apikey",
+        "description": "Client publishable key, not a privileged service-role secret"
+      },
+      "GuestJWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "ScoreRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "p_level_id": {
+            "type": "string",
+            "enum": [
+              "L01",
+              "L02",
+              "L03",
+              "L04",
+              "L05"
+            ]
+          },
+          "p_level_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "p_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "p_elapsed_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400000
+          }
+        },
+        "required": [
+          "p_submission_id",
+          "p_level_id",
+          "p_level_version",
+          "p_steps",
+          "p_elapsed_ms"
+        ]
+      },
+      "ScoreReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "duplicate"
+            ]
+          },
+          "is_personal_best": {
+            "type": "boolean"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "submission_id",
+          "status",
+          "is_personal_best",
+          "received_at"
+        ]
+      },
+      "LeaderboardRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_level_id": {
+            "type": "string",
+            "enum": [
+              "L01",
+              "L02",
+              "L03",
+              "L04",
+              "L05"
+            ]
+          },
+          "p_level_version": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "p_level_id",
+          "p_level_version"
+        ]
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "display_name": {
+            "type": "string",
+            "pattern": "^Guest-[0-9A-F]{10}$"
+          },
+          "steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "elapsed_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400000
+          }
+        },
+        "required": [
+          "rank",
+          "display_name",
+          "steps",
+          "elapsed_ms"
+        ]
+      },
+      "Leaderboard": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "level_id": {
+            "type": "string",
+            "enum": [
+              "L01",
+              "L02",
+              "L03",
+              "L04",
+              "L05"
+            ]
+          },
+          "level_version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/LeaderboardEntry"
+            }
+          }
+        },
+        "required": [
+          "level_id",
+          "level_version",
+          "generated_at",
+          "entries"
+        ]
+      },
+      "RpcError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string",
+            "nullable": true
+          },
+          "hint": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "details",
+          "hint"
+        ]
+      },
+      "AuthSession": {
+        "type": "object",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "Secret runtime token; never log or commit."
+          },
+          "refresh_token": {
+            "type": "string"
+          },
+          "token_type": {
+            "type": "string",
+            "enum": [
+              "bearer"
+            ]
+          },
+          "expires_in": {
+            "type": "integer"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "is_anonymous": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "required": [
+          "access_token",
+          "refresh_token",
+          "token_type",
+          "expires_in",
+          "user"
+        ]
+      }
+    }
+  }
+}

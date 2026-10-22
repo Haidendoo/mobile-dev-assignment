@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680" role="img">
+<rect x="0" y="0" width="1200" height="680" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">System architecture</text>
+<rect x="40" y="135" width="380" height="240" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="58" y="173.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Android application</text>
+<text x="58" y="209.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Flutter UI + ViewModels</text>
+<text x="58" y="238.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Pure Dart puzzle rules</text>
+<text x="58" y="267.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Packaged level JSON</text>
+<text x="58" y="296.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">SQLite + secure token store</text>
+<rect x="735" y="100" width="410" height="160" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="753" y="138.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Supabase Auth</text>
+<text x="753" y="174.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Anonymous user session</text>
+<text x="753" y="203.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">HTTPS / refresh / secure tokens</text>
+<rect x="735" y="365" width="410" height="180" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="753" y="403.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Supabase PostgreSQL</text>
+<text x="753" y="439.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">submit_score / get_leaderboard</text>
+<text x="753" y="468.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Guest-bound writes; public ranking</text>
+<text x="753" y="497.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">RLS + narrow function grants</text>
+<line x1="420" y1="190" x2="735" y2="180" stroke="#173B32" stroke-width="2"/>
+<line x1="735" y1="180" x2="724.3656932613292" y2="185.55981296338834" stroke="#173B32" stroke-width="2"/>
+<line x1="735" y1="180" x2="724.0344578188765" y2="175.12589652612894" stroke="#173B32" stroke-width="2"/>
+<text x="445" y="155.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#173B32">Online identity only</text>
+<line x1="420" y1="325" x2="735" y2="425" stroke="#173B32" stroke-width="2"/>
+<line x1="735" y1="425" x2="723.1218062582487" y2="426.7054364348812" stroke="#173B32" stroke-width="2"/>
+<line x1="735" y1="425" x2="726.2804821129756" y2="416.7556074924916" stroke="#173B32" stroke-width="2"/>
+<text x="445" y="380.4" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#173B32">HTTPS RPC</text>
+<text x="50" y="487.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Offline path stays entirely inside the app.</text>
+<text x="50" y="530.4" font-family="Arial, sans-serif" font-size="24" font-weight="400" fill="#486156">No separate application server or real-time multiplayer.</text>
+</svg>

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "coordinate_system": "Zero-based [x, y]; origin at top-left; x increases right, y increases down.",
+  "legend": {"#": "wall", " ": "floor", ".": "goal", "$": "crate", "@": "player", "*": "crate on goal", "+": "player on goal"},
+  "provenance": "Original small teaching layouts authored for this A01 package; no reference-game maps copied.",
+  "levels": [
+    {"id": "L01", "version": 1, "name": "First Steps", "teaches": "Push one crate in a straight line.", "map": ["#######", "#     #", "# @$ .#", "#     #", "#######"], "solution": "RR"},
+    {"id": "L02", "version": 1, "name": "Around the Bend", "teaches": "Walk around a crate to change the push direction.", "map": ["#######", "#   . #", "#     #", "#  $  #", "# @   #", "#######"], "solution": "URDRUU"},
+    {"id": "L03", "version": 1, "name": "Two Deliveries", "teaches": "Plan a route between two crates.", "map": ["########", "# .  . #", "#      #", "# $  $ #", "#  @   #", "#      #", "########"], "solution": "LUUDDRRRUU"},
+    {"id": "L04", "version": 1, "name": "Forest Divider", "teaches": "Route around a central obstacle.", "map": ["#########", "# .   . #", "#   #   #", "# $   $ #", "#   @   #", "#       #", "#########"], "solution": "LLUUDDRRRRUU"},
+    {"id": "L05", "version": 1, "name": "Three Clearings", "teaches": "Reposition three crates around two obstacles.", "map": ["##########", "# . .  . #", "#   #    #", "# $ $ $  #", "#   #    #", "#   @    #", "#        #", "##########"], "solution": "LULUUDRRLDDRRUUUDRDRUULUL"}
+  ]
+}

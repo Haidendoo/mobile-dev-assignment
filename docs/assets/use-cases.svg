@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img">
+<rect x="0" y="0" width="1200" height="780" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">Use cases - Forest Sokoban</text>
+<rect x="270" y="95" width="680" height="635" rx="12" fill="none" stroke="#164A3A" stroke-width="2"/>
+<text x="480" y="131.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">Application boundary</text>
+<ellipse cx="100.0" cy="316.0" rx="16.0" ry="16.0" fill="none" stroke="#164A3A" stroke-width="2"/>
+<line x1="100" y1="332" x2="100" y2="395" stroke="#173B32" stroke-width="2"/>
+<line x1="68" y1="353" x2="132" y2="353" stroke="#173B32" stroke-width="2"/>
+<line x1="100" y1="395" x2="70" y2="435" stroke="#173B32" stroke-width="2"/>
+<line x1="100" y1="395" x2="130" y2="435" stroke="#173B32" stroke-width="2"/>
+<text x="57" y="464.55" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#173B32">Player</text>
+<ellipse cx="1070.0" cy="226.0" rx="16.0" ry="16.0" fill="none" stroke="#164A3A" stroke-width="2"/>
+<line x1="1070" y1="242" x2="1070" y2="305" stroke="#173B32" stroke-width="2"/>
+<line x1="1038" y1="263" x2="1102" y2="263" stroke="#173B32" stroke-width="2"/>
+<line x1="1070" y1="305" x2="1040" y2="345" stroke="#173B32" stroke-width="2"/>
+<line x1="1070" y1="305" x2="1100" y2="345" stroke="#173B32" stroke-width="2"/>
+<text x="1027" y="374.55" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#173B32">Auth</text>
+<ellipse cx="1065.0" cy="501.0" rx="16.0" ry="16.0" fill="none" stroke="#164A3A" stroke-width="2"/>
+<line x1="1065" y1="517" x2="1065" y2="580" stroke="#173B32" stroke-width="2"/>
+<line x1="1033" y1="538" x2="1097" y2="538" stroke="#173B32" stroke-width="2"/>
+<line x1="1065" y1="580" x2="1035" y2="620" stroke="#173B32" stroke-width="2"/>
+<line x1="1065" y1="580" x2="1095" y2="620" stroke="#173B32" stroke-width="2"/>
+<text x="1022" y="649.55" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#173B32">Score service</text>
+<ellipse cx="607.5" cy="190.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="198.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-01 Choose/start</text>
+<line x1="140" y1="370" x2="370" y2="190" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="268.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="276.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-02 Play/finish</text>
+<line x1="140" y1="370" x2="370" y2="268" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="346.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="354.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-03 Undo/restart</text>
+<line x1="140" y1="370" x2="370" y2="346" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="424.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="432.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-04 Pause/continue</text>
+<line x1="140" y1="370" x2="370" y2="424" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="502.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="510.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-05 Publish result</text>
+<line x1="140" y1="370" x2="370" y2="502" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="580.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="588.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-06 View rankings</text>
+<line x1="140" y1="370" x2="370" y2="580" stroke="#486156" stroke-width="1"/>
+<ellipse cx="607.5" cy="658.0" rx="237.5" ry="30.0" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="405" y="666.25" font-family="Arial, sans-serif" font-size="25" font-weight="700" fill="#173B32">UC-07 Guide/settings</text>
+<line x1="140" y1="370" x2="370" y2="658" stroke="#486156" stroke-width="1"/>
+<line x1="845" y1="502" x2="1070" y2="300" stroke="#486156" stroke-width="1"/>
+<line x1="845" y1="502" x2="1065" y2="535" stroke="#486156" stroke-width="1"/>
+<line x1="845" y1="580" x2="1065" y2="535" stroke="#486156" stroke-width="1"/>
+</svg>

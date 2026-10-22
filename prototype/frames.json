@@ -1,0 +1,1672 @@
+[
+  {
+    "id": "SCR-01",
+    "title": "Home - first visit",
+    "screen_file": "screens/SCR-01.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 205,
+        "y": 377,
+        "w": 290,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Play"
+      },
+      {
+        "x": 205,
+        "y": 521,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-03",
+        "label": "How to Play"
+      },
+      {
+        "x": 485,
+        "y": 521,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Leaderboard"
+      },
+      {
+        "x": 765,
+        "y": 521,
+        "w": 270,
+        "h": 96,
+        "target": "SCR-08",
+        "label": "Settings"
+      }
+    ]
+  },
+  {
+    "id": "SCR-01r",
+    "title": "Home - saved game",
+    "screen_file": "screens/SCR-01r.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 205,
+        "y": 377,
+        "w": 290,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Play"
+      },
+      {
+        "x": 525,
+        "y": 377,
+        "w": 290,
+        "h": 96,
+        "target": "SCR-04r",
+        "label": "Continue"
+      },
+      {
+        "x": 205,
+        "y": 521,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-03",
+        "label": "How to Play"
+      },
+      {
+        "x": 485,
+        "y": 521,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Leaderboard"
+      },
+      {
+        "x": 765,
+        "y": 521,
+        "w": 270,
+        "h": 96,
+        "target": "SCR-08",
+        "label": "Settings"
+      }
+    ]
+  },
+  {
+    "id": "SCR-02",
+    "title": "Select Level",
+    "screen_file": "screens/SCR-02.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 80,
+        "y": 525,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Play"
+      },
+      {
+        "x": 310,
+        "y": 525,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04L2",
+        "label": "Play"
+      },
+      {
+        "x": 540,
+        "y": 525,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04L3",
+        "label": "Play"
+      },
+      {
+        "x": 770,
+        "y": 525,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04L4",
+        "label": "Play"
+      },
+      {
+        "x": 1000,
+        "y": 525,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04L5",
+        "label": "Play"
+      }
+    ]
+  },
+  {
+    "id": "SCR-03",
+    "title": "How to Play",
+    "screen_file": "screens/SCR-03.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 130,
+        "y": 516,
+        "w": 310,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Got it"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04",
+    "title": "Gameplay - initial",
+    "screen_file": "screens/SCR-04.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05i",
+        "label": "Pause"
+      },
+      {
+        "x": 130,
+        "y": 315,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-04w",
+        "label": "Up"
+      },
+      {
+        "x": 230,
+        "y": 415,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-04p",
+        "label": "Right"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05ci",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04p",
+    "title": "Gameplay - first push",
+    "screen_file": "screens/SCR-04p.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 230,
+        "y": 415,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-06",
+        "label": "Right"
+      },
+      {
+        "x": 1020,
+        "y": 270,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04u",
+        "label": "Undo"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04w",
+    "title": "Gameplay - beside a wall",
+    "screen_file": "screens/SCR-04w.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 130,
+        "y": 315,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-04b",
+        "label": "Up"
+      },
+      {
+        "x": 1020,
+        "y": 270,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04u",
+        "label": "Undo"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04b",
+    "title": "Gameplay - blocked at wall",
+    "screen_file": "screens/SCR-04b.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 130,
+        "y": 315,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-04b",
+        "label": "Up"
+      },
+      {
+        "x": 1020,
+        "y": 270,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04u",
+        "label": "Undo"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04u",
+    "title": "Gameplay - undo restores board",
+    "screen_file": "screens/SCR-04u.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 230,
+        "y": 415,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-04q",
+        "label": "Right"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04q",
+    "title": "Gameplay - push after undo",
+    "screen_file": "screens/SCR-04q.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 230,
+        "y": 415,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-06u",
+        "label": "Right"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04r",
+    "title": "Gameplay - restored save",
+    "screen_file": "screens/SCR-04r.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 230,
+        "y": 415,
+        "w": 96,
+        "h": 96,
+        "target": "SCR-06",
+        "label": "Right"
+      },
+      {
+        "x": 1020,
+        "y": 270,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-04u",
+        "label": "Undo"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04L2",
+    "title": "Gameplay - Level 2 layout preview",
+    "screen_file": "screens/SCR-04L2.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04L3",
+    "title": "Gameplay - Level 3 layout preview",
+    "screen_file": "screens/SCR-04L3.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04L4",
+    "title": "Gameplay - Level 4 layout preview",
+    "screen_file": "screens/SCR-04L4.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-04L5",
+    "title": "Gameplay - Level 5 layout preview",
+    "screen_file": "screens/SCR-04L5.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 1050,
+        "y": 31,
+        "w": 180,
+        "h": 96,
+        "target": "SCR-05",
+        "label": "Pause"
+      },
+      {
+        "x": 1020,
+        "y": 390,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-05c",
+        "label": "Restart"
+      },
+      {
+        "x": 1020,
+        "y": 510,
+        "w": 220,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05",
+    "title": "Take a breath",
+    "screen_file": "screens/SCR-05.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04r",
+        "label": "Resume"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05i",
+    "title": "Take a breath",
+    "screen_file": "screens/SCR-05i.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Resume"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05c",
+    "title": "Restart this level?",
+    "screen_file": "screens/SCR-05c.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Restart"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04r",
+        "label": "Cancel"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05ci",
+    "title": "Restart this level?",
+    "screen_file": "screens/SCR-05ci.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Restart"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Cancel"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05x",
+    "title": "Saved game unavailable",
+    "screen_file": "screens/SCR-05x.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Discard save"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Back"
+      }
+    ]
+  },
+  {
+    "id": "SCR-05s",
+    "title": "Could not save",
+    "screen_file": "screens/SCR-05s.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04r",
+        "label": "Retry save"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Home"
+      }
+    ]
+  },
+  {
+    "id": "SCR-02c",
+    "title": "Replace saved attempt?",
+    "screen_file": "screens/SCR-02c.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 302,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-04L2",
+        "label": "Replace"
+      },
+      {
+        "x": 646,
+        "y": 423,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-01r",
+        "label": "Cancel"
+      }
+    ]
+  },
+  {
+    "id": "SCR-06",
+    "title": "Completion - pending",
+    "screen_file": "screens/SCR-06.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 235,
+        "y": 505,
+        "w": 240,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Replay"
+      },
+      {
+        "x": 495,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Levels"
+      },
+      {
+        "x": 775,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-06s",
+        "label": "Retry"
+      }
+    ]
+  },
+  {
+    "id": "SCR-06s",
+    "title": "Completion - synced",
+    "screen_file": "screens/SCR-06s.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 235,
+        "y": 505,
+        "w": 240,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Replay"
+      },
+      {
+        "x": 495,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Levels"
+      },
+      {
+        "x": 775,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Rankings"
+      }
+    ]
+  },
+  {
+    "id": "SCR-06e",
+    "title": "Completion - error",
+    "screen_file": "screens/SCR-06e.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 235,
+        "y": 505,
+        "w": 240,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Replay"
+      },
+      {
+        "x": 495,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Levels"
+      },
+      {
+        "x": 775,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-06s",
+        "label": "Retry"
+      }
+    ]
+  },
+  {
+    "id": "SCR-06u",
+    "title": "Completion - after undo",
+    "screen_file": "screens/SCR-06u.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 235,
+        "y": 505,
+        "w": 240,
+        "h": 96,
+        "target": "SCR-04",
+        "label": "Replay"
+      },
+      {
+        "x": 495,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Levels"
+      },
+      {
+        "x": 775,
+        "y": 505,
+        "w": 260,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Rankings"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07",
+    "title": "Leaderboard - populated",
+    "screen_file": "screens/SCR-07.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07l",
+    "title": "Leaderboard - loading",
+    "screen_file": "screens/SCR-07l.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      },
+      {
+        "x": 252,
+        "y": 485,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-02",
+        "label": "Back to levels"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07n",
+    "title": "Leaderboard - empty",
+    "screen_file": "screens/SCR-07n.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      },
+      {
+        "x": 252,
+        "y": 485,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Try again"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07e",
+    "title": "Leaderboard - error",
+    "screen_file": "screens/SCR-07e.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      },
+      {
+        "x": 252,
+        "y": 485,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Try again"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07o",
+    "title": "Leaderboard - offline cached",
+    "screen_file": "screens/SCR-07o.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-07z",
+    "title": "Leaderboard - offline no cache",
+    "screen_file": "screens/SCR-07z.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Refresh"
+      },
+      {
+        "x": 252,
+        "y": 485,
+        "w": 320,
+        "h": 96,
+        "target": "SCR-07",
+        "label": "Try again"
+      }
+    ]
+  },
+  {
+    "id": "SCR-072",
+    "title": "Leaderboard - Level 2",
+    "screen_file": "screens/SCR-072.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-073",
+    "title": "Leaderboard - Level 3",
+    "screen_file": "screens/SCR-073.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-074",
+    "title": "Leaderboard - Level 4",
+    "screen_file": "screens/SCR-074.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-075",
+    "title": "Leaderboard - Level 5",
+    "screen_file": "screens/SCR-075.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 225,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-07l",
+        "label": "Level 1"
+      },
+      {
+        "x": 387,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-072",
+        "label": "Level 2"
+      },
+      {
+        "x": 549,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-073",
+        "label": "Level 3"
+      },
+      {
+        "x": 711,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-074",
+        "label": "Level 4"
+      },
+      {
+        "x": 873,
+        "y": 177,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Level 5"
+      },
+      {
+        "x": 1040,
+        "y": 28,
+        "w": 200,
+        "h": 96,
+        "target": "SCR-075",
+        "label": "Refresh"
+      }
+    ]
+  },
+  {
+    "id": "SCR-08",
+    "title": "Settings - sound on",
+    "screen_file": "screens/SCR-08.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 265,
+        "y": 363,
+        "w": 360,
+        "h": 96,
+        "target": "SCR-08m",
+        "label": "Sound: On"
+      }
+    ]
+  },
+  {
+    "id": "SCR-08m",
+    "title": "Settings - sound off",
+    "screen_file": "screens/SCR-08m.svg",
+    "width": 1280,
+    "height": 720,
+    "links": [
+      {
+        "x": 40,
+        "y": 28,
+        "w": 150,
+        "h": 96,
+        "target": "SCR-01",
+        "label": "Back"
+      },
+      {
+        "x": 265,
+        "y": 363,
+        "w": 360,
+        "h": 96,
+        "target": "SCR-08",
+        "label": "Sound: Off"
+      }
+    ]
+  }
+]

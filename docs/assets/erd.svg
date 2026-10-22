@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="850" viewBox="0 0 1200 850" role="img">
+<rect x="0" y="0" width="1200" height="850" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">Logical data model - location and cardinality</text>
+<rect x="35" y="105" width="355" height="200" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="53" y="143.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Level (packaged + mirror)</text>
+<text x="53" y="179.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">PK: id + version</text>
+<text x="53" y="208.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">map / dimensions / title</text>
+<text x="53" y="237.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">Immutable per version</text>
+<rect x="470" y="105" width="330" height="200" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="488" y="143.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">GameSession (local)</text>
+<text x="488" y="179.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">PK: slot = 1; attempt UUID</text>
+<text x="488" y="208.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">FK: level_id + version</text>
+<text x="488" y="237.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">positions / history / counters</text>
+<rect x="850" y="105" width="315" height="200" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="868" y="143.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">Progress (local)</text>
+<text x="868" y="179.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">PK/FK: level + version</text>
+<text x="868" y="208.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">completed / best pair</text>
+<rect x="35" y="410" width="355" height="170" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="53" y="448.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">GuestProfile (remote)</text>
+<text x="53" y="484.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">PK: auth_user_id</text>
+<text x="53" y="513.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">1:1 with Auth user</text>
+<text x="53" y="542.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">generated display name</text>
+<rect x="470" y="410" width="330" height="200" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="488" y="448.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">ScoreReceipt (remote)</text>
+<text x="488" y="484.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">FK: guest + level/version</text>
+<text x="488" y="513.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">UQ: guest + submission UUID</text>
+<text x="488" y="542.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">steps / time / received_at</text>
+<rect x="850" y="410" width="315" height="200" rx="14" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="868" y="448.1" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#173B32">ScoreSubmission (local)</text>
+<text x="868" y="484.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">PK: submission UUID</text>
+<text x="868" y="513.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">attempt / level / score</text>
+<text x="868" y="542.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#486156">pending / synced / rejected</text>
+<line x1="390" y1="175" x2="470" y2="175" stroke="#173B32" stroke-width="2"/>
+<line x1="470" y1="175" x2="459.1946347717679" y2="180.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="470" y1="175" x2="459.1946347717679" y2="169.78041359066523" stroke="#173B32" stroke-width="2"/>
+<text x="397" y="155.3" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#173B32">1 : 0..1</text>
+<line x1="800" y1="175" x2="850" y2="175" stroke="#173B32" stroke-width="2"/>
+<line x1="850" y1="175" x2="839.1946347717678" y2="180.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="850" y1="175" x2="839.1946347717678" y2="169.78041359066523" stroke="#173B32" stroke-width="2"/>
+<line x1="210" y1="305" x2="520" y2="410" stroke="#173B32" stroke-width="2"/>
+<line x1="520" y1="410" x2="508.0912769033854" y2="411.4772657879197" stroke="#173B32" stroke-width="2"/>
+<line x1="520" y1="410" x2="511.4402369694197" y2="401.58985987867555" stroke="#173B32" stroke-width="2"/>
+<text x="258" y="363.7" font-family="Arial, sans-serif" font-size="22" font-weight="400" fill="#173B32">1 level : many receipts</text>
+<line x1="390" y1="500" x2="470" y2="500" stroke="#173B32" stroke-width="2"/>
+<line x1="470" y1="500" x2="459.1946347717679" y2="505.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="470" y1="500" x2="459.1946347717679" y2="494.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="392" y="480.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">1 : N</text>
+<line x1="850" y1="540" x2="800" y2="540" stroke="#173B32" stroke-width="2"/>
+<line x1="800" y1="540" x2="810.8053652282322" y2="534.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="800" y1="540" x2="810.8053652282322" y2="545.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="820" y="585.3" font-family="Arial, sans-serif" font-size="18" font-weight="400" fill="#173B32">sync</text>
+<text x="40" y="711.25" font-family="Arial, sans-serif" font-size="25" font-weight="400" fill="#173B32">Local-only: LeaderboardCache(level/version, fetched_at, public rows)</text>
+<text x="40" y="761.25" font-family="Arial, sans-serif" font-size="25" font-weight="400" fill="#173B32">Local-only: Settings(sound_enabled). No access tokens in SQLite.</text>
+</svg>

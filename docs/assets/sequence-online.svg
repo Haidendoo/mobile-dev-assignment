@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="940" viewBox="0 0 1200 940" role="img">
+<rect x="0" y="0" width="1200" height="940" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">Idempotent score sync and ranking read</text>
+<rect x="20.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="31.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">App / Outbox</text>
+<line x1="110.0" y1="170" x2="110.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="510.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="521.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">Supabase Auth</text>
+<line x1="600.0" y1="170" x2="600.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="1000.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="1011.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">Score RPC</text>
+<line x1="1090.0" y1="170" x2="1090.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<line x1="110.0" y1="218" x2="165.0" y2="218" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="218" x2="165.0" y2="243" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="243" x2="110.0" y2="243" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="243" x2="120.80536522823212" y2="237.78041359066523" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="243" x2="120.80536522823212" y2="248.21958640933477" stroke="#173B32" stroke-width="2"/>
+<text x="175.0" y="225.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Offline: retain local result; no request</text>
+<line x1="110.0" y1="291" x2="600.0" y2="291" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="291" x2="589.1946347717678" y2="296.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="600.0" y1="291" x2="589.1946347717678" y2="285.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="279.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Online: anonymous session / refresh</text>
+<line x1="600.0" y1="364" x2="110.0" y2="364" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="364" x2="120.80536522823212" y2="358.78041359066526" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="364" x2="120.80536522823212" y2="369.21958640933474" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="352.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">JWT or recoverable Auth error</text>
+<line x1="110.0" y1="437" x2="1090.0" y2="437" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="437" x2="1079.1946347717678" y2="442.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="437" x2="1079.1946347717678" y2="431.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="425.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">submit_score: same UUID on every retry</text>
+<line x1="1090.0" y1="510" x2="110.0" y2="510" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="510" x2="120.80536522823212" y2="504.78041359066526" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="510" x2="120.80536522823212" y2="515.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="498.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Accepted / duplicate / conflict / failure</text>
+<line x1="110.0" y1="583" x2="165.0" y2="583" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="583" x2="165.0" y2="608" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="608" x2="110.0" y2="608" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="608" x2="120.80536522823212" y2="602.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="608" x2="120.80536522823212" y2="613.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="175.0" y="590.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Ack only on success; otherwise keep pending</text>
+<line x1="110.0" y1="656" x2="1090.0" y2="656" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="656" x2="1079.1946347717678" y2="661.2195864093347" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="656" x2="1079.1946347717678" y2="650.7804135906653" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="644.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">get_leaderboard(selected level/version)</text>
+<line x1="1090.0" y1="729" x2="110.0" y2="729" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="729" x2="120.80536522823212" y2="723.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="729" x2="120.80536522823212" y2="734.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="717.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Top 20 or empty/error response</text>
+<line x1="110.0" y1="802" x2="165.0" y2="802" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="802" x2="165.0" y2="827" stroke="#173B32" stroke-width="2"/>
+<line x1="165.0" y1="827" x2="110.0" y2="827" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="827" x2="120.80536522823212" y2="821.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="827" x2="120.80536522823212" y2="832.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="175.0" y="809.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Cache by level; discard stale responses</text>
+</svg>

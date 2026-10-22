@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="940" viewBox="0 0 1200 940" role="img">
+<rect x="0" y="0" width="1200" height="940" rx="0" fill="#FFFFFF" stroke="none" stroke-width="1"/>
+<text x="30" y="48.9" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#164A3A">Move, persist, undo, and complete</text>
+<rect x="20.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="31.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">Player</text>
+<line x1="110.0" y1="170" x2="110.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="346.6666666666667" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="357.6666666666667" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">ViewModel</text>
+<line x1="436.6666666666667" y1="170" x2="436.6666666666667" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="673.3333333333334" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="684.3333333333334" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">GameRules</text>
+<line x1="763.3333333333334" y1="170" x2="763.3333333333334" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<rect x="1000.0" y="100" width="180" height="70" rx="10" fill="#FFF8E7" stroke="#164A3A" stroke-width="2"/>
+<text x="1011.0" y="140.7" font-family="Arial, sans-serif" font-size="22" font-weight="700" fill="#173B32">Repository</text>
+<line x1="1090.0" y1="170" x2="1090.0" y2="850" stroke="#B2C3B7" stroke-width="1"/>
+<line x1="110.0" y1="218" x2="436.6666666666667" y2="218" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="218" x2="425.86130143843457" y2="223.21958640933477" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="218" x2="425.86130143843457" y2="212.78041359066523" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="206.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Tap direction</text>
+<line x1="436.6666666666667" y1="291" x2="763.3333333333334" y2="291" stroke="#173B32" stroke-width="2"/>
+<line x1="763.3333333333334" y1="291" x2="752.5279681051012" y2="296.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="763.3333333333334" y1="291" x2="752.5279681051012" y2="285.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="279.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">tryMove(board, direction)</text>
+<line x1="763.3333333333334" y1="364" x2="436.6666666666667" y2="364" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="364" x2="447.4720318948988" y2="358.78041359066526" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="364" x2="447.4720318948988" y2="369.21958640933474" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="352.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Blocked: unchanged / valid: new board</text>
+<line x1="436.6666666666667" y1="437" x2="1090.0" y2="437" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="437" x2="1079.1946347717678" y2="442.21958640933474" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="437" x2="1079.1946347717678" y2="431.78041359066526" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="425.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Valid only: persist snapshot + counters</text>
+<line x1="1090.0" y1="510" x2="436.6666666666667" y2="510" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="510" x2="447.4720318948988" y2="504.78041359066526" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="510" x2="447.4720318948988" y2="515.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="498.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Commit succeeds / pause on save error</text>
+<line x1="110.0" y1="583" x2="436.6666666666667" y2="583" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="583" x2="425.86130143843457" y2="588.2195864093347" stroke="#173B32" stroke-width="2"/>
+<line x1="436.6666666666667" y1="583" x2="425.86130143843457" y2="577.7804135906653" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="571.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Undo: restore previous board; +1 action</text>
+<line x1="436.6666666666667" y1="656" x2="1090.0" y2="656" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="656" x2="1079.1946347717678" y2="661.2195864093347" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="656" x2="1079.1946347717678" y2="650.7804135906653" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="644.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Persist undo without rewinding time</text>
+<line x1="436.6666666666667" y1="729" x2="1090.0" y2="729" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="729" x2="1079.1946347717678" y2="734.2195864093347" stroke="#173B32" stroke-width="2"/>
+<line x1="1090.0" y1="729" x2="1079.1946347717678" y2="723.7804135906653" stroke="#173B32" stroke-width="2"/>
+<text x="448.6666666666667" y="717.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">If solved: result + outbox; clear save</text>
+<line x1="436.6666666666667" y1="802" x2="110.0" y2="802" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="802" x2="120.80536522823212" y2="796.7804135906653" stroke="#173B32" stroke-width="2"/>
+<line x1="110.0" y1="802" x2="120.80536522823212" y2="807.2195864093347" stroke="#173B32" stroke-width="2"/>
+<text x="122.0" y="790.0" font-family="Arial, sans-serif" font-size="20" font-weight="400" fill="#173B32">Render board or Completion</text>
+</svg>

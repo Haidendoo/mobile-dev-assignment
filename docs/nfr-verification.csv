@@ -1,0 +1,13 @@
+requirement_id,target,verification_method,test_id,phase,execution_status,actual_result,evidence_path
+NFR-01,Cold launch to usable Home <=3 s in at least 95% of 20 trials,Timed release-build launches; include failed/slow trials,VF-01,A02,Not run,,
+NFR-02,Input-to-visible-move <=100 ms in at least 95% of 100 valid inputs,Frame timestamps/profiling on the baseline device,VF-02,A02,Not run,,
+NFR-03,Selected leaderboard response rendered <=3 s in at least 95% of 20 Wi-Fi trials; client timeout 10 s,Record complete request-to-render time; do not silently exclude server cold starts,VF-03,A02,Not run,,
+NFR-04,All five boards and core local actions work on first launch in airplane mode,Fresh install offline walkthrough; verify persistent progress after restart,VF-04,A02,Not run,,
+NFR-05,No timer/audio/animation progression after background lifecycle handler; no periodic network polling or background sync,Lifecycle tests; 60-second background observation and network capture,VF-05,A02,Not run,,
+NFR-06,HTTPS only; tokens in OS-backed secure storage; no privileged backend secrets in repo/app,Config/repo/build inspection; verify secure-storage session adapter,VF-06,A02,Not run,,
+NFR-07,Writes bound to authenticated guest; rankings expose only public score fields; expired sessions cannot write,A02 authorization and cross-user integration tests,VF-07,A02,Not run,,
+NFR-08,No dangerous runtime permissions; network access only,Android manifest review and fresh-install permission walkthrough,VF-08,A02,Not run,,
+NFR-09,Touch areas >=48 x 48 dp; body contrast >=4.5:1; target/completed-crate shapes differ,Layout/contrast audit at smallest viewport; verify labels with TalkBack,VF-09,A02,Not run,,
+NFR-10,Landscape Android 10+; no clipped board or overlapping controls at both defined viewports,Screenshot/layout comparison with safe areas and 1.3x system text,VF-10,A02,Not run,,
+NFR-11,No repeated idle network requests; leaderboard payload <=50 KB for 20 rows,Network capture and serialized-response measurement,VF-11,A02,Not run,,
+NFR-12,Every acknowledged local action restores consistently; completion is atomic; duplicate sends create one receipt,Fault injection around SQLite transactions and API retry integration tests,VF-12,A02,Not run,,
