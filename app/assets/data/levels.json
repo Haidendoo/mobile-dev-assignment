@@ -1,0 +1,201 @@
+{
+  "schema_version": 2,
+  "levels": [
+    {
+      "id": "L01",
+      "version": 1,
+      "name": "First Steps",
+      "chapter": 1,
+      "map": [
+        "#######",
+        "#     #",
+        "# @$ .#",
+        "#     #",
+        "#######"
+      ],
+      "solution": "RR"
+    },
+    {
+      "id": "L02",
+      "version": 1,
+      "name": "Around the Bend",
+      "chapter": 1,
+      "map": [
+        "#######",
+        "#   . #",
+        "#     #",
+        "#  $  #",
+        "# @   #",
+        "#######"
+      ],
+      "solution": "URDRUU"
+    },
+    {
+      "id": "L03",
+      "version": 1,
+      "name": "Two Deliveries",
+      "chapter": 1,
+      "map": [
+        "########",
+        "# .  . #",
+        "#      #",
+        "# $  $ #",
+        "#  @   #",
+        "#      #",
+        "########"
+      ],
+      "solution": "LUUDDRRRUU"
+    },
+    {
+      "id": "L04",
+      "version": 1,
+      "name": "Forest Divider",
+      "chapter": 1,
+      "map": [
+        "#########",
+        "# .   . #",
+        "#   #   #",
+        "# $   $ #",
+        "#   @   #",
+        "#       #",
+        "#########"
+      ],
+      "solution": "LLUUDDRRRRUU"
+    },
+    {
+      "id": "L05",
+      "version": 1,
+      "name": "Three Clearings",
+      "chapter": 1,
+      "map": [
+        "##########",
+        "# . .  . #",
+        "#   #    #",
+        "# $ $ $  #",
+        "#   #    #",
+        "#   @    #",
+        "#        #",
+        "##########"
+      ],
+      "solution": "LULUUDRRLDDRRUUUDRDRUULUL"
+    },
+    {
+      "id": "L06",
+      "version": 2,
+      "name": "Moss Gate",
+      "chapter": 2,
+      "map": [
+        "#########",
+        "#       #",
+        "#  $ # .#",
+        "# @     #",
+        "#   $  .#",
+        "#       #",
+        "#########"
+      ],
+      "solution": "UURDLDRRRRDRULLLLDRRR"
+    },
+    {
+      "id": "L07",
+      "version": 2,
+      "name": "Broken Courtyard",
+      "chapter": 2,
+      "map": [
+        "########",
+        "#      #",
+        "#. #   #",
+        "#.  $  #",
+        "#  # $ #",
+        "# @    #",
+        "#      #",
+        "########"
+      ],
+      "solution": "RRRUULLLDLURUURRRDRDLLLL"
+    },
+    {
+      "id": "L08",
+      "version": 2,
+      "name": "Roots of Memory",
+      "chapter": 2,
+      "map": [
+        "##########",
+        "#   #    #",
+        "# $ #  . #",
+        "#        #",
+        "# $ #    #",
+        "# @ #   .#",
+        "#   #    #",
+        "##########"
+      ],
+      "solution": "ULURRRRURDLLLUULDLDRRRRRDLDRRUU"
+    },
+    {
+      "id": "L09",
+      "version": 2,
+      "name": "Echoing Altars",
+      "chapter": 2,
+      "map": [
+        "#########",
+        "#   .   #",
+        "#  # #  #",
+        "# $   $ #",
+        "#   $   #",
+        "# #   # #",
+        "# . @ . #",
+        "#########"
+      ],
+      "solution": "ULULLURRRUURRDDRDLULDDULUUDLDDRDLRR"
+    },
+    {
+      "id": "L10",
+      "version": 2,
+      "name": "Heartwood Passage",
+      "chapter": 3,
+      "map": [
+        "########",
+        "# .  . #",
+        "#  ##  #",
+        "# $  $ #",
+        "# $  $ #",
+        "#  ##@ #",
+        "# .  . #",
+        "########"
+      ],
+      "solution": "RULUUDDDDLLLULUURDDURRULDLUUDRRRDD"
+    },
+    {
+      "id": "L11",
+      "version": 2,
+      "name": "Last Light",
+      "chapter": 3,
+      "map": [
+        "##########",
+        "#      . #",
+        "#  #..#  #",
+        "#        #",
+        "# $   #$ #",
+        "#    $   #",
+        "# @      #",
+        "##########"
+      ],
+      "solution": "UULURRDRUDDDRUUUDDRRUUU"
+    },
+    {
+      "id": "L12",
+      "version": 2,
+      "name": "The Ancient Tree",
+      "chapter": 3,
+      "map": [
+        "#########",
+        "#   #  .#",
+        "# $ #   #",
+        "#   *   #",
+        "# $ #   #",
+        "# @ #  .#",
+        "#   #   #",
+        "#########"
+      ],
+      "solution": "URURRURDLLLDLLURRRRRDLDRURUUDLLLLUULDLDRR"
+    }
+  ]
+}

@@ -3,3 +3,12 @@ __pycache__/
 .venv/
 .DS_Store
 deliverables/Forest-Sokoban-A01-package.zip
+/main.*
+.toolchains/
+.pub-cache/
+*.jks
+*.keystore
+key.properties
+.env
+.env.*
+!.env.example

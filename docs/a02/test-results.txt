@@ -1,0 +1,40 @@
+00:00 +0: loading /home/haiden/bku/mobile/app/test/widget_test.dart
+00:00 +0: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +1: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +2: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +3: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +4: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +5: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +6: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +7: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +8: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +9: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +10: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +11: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +12: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +13: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +14: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +15: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +16: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +17: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:01 +18: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:02 +19: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:02 +20: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:02 +21: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:02 +22: /home/haiden/bku/mobile/app/test/widget_test.dart: first launch disables Continue and starts an offline campaign
+00:02 +23: /home/haiden/bku/mobile/app/test/campaign_view_model_test.dart: background during an in-flight start finishes paused
+00:02 +24: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(640.0, 360.0) with 1.3x text
+00:02 +25: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(640.0, 360.0) with 1.3x text
+00:02 +26: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(640.0, 360.0) with 1.3x text
+00:02 +27: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(640.0, 360.0) with 1.3x text
+00:02 +28: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(640.0, 360.0) with 1.3x text
+00:03 +29: /home/haiden/bku/mobile/app/test/campaign_repository_test.dart: save roundtrip keeps board, history, counters and version
+00:03 +30: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +31: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +32: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +33: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +34: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +35: /home/haiden/bku/mobile/app/test/widget_test.dart: play, win and replay at Size(800.0, 450.0) with 1.3x text
+00:03 +36: /home/haiden/bku/mobile/app/test/widget_test.dart: restart dialog Cancel preserves board and Confirm resets it
+00:04 +37: /home/haiden/bku/mobile/app/test/widget_test.dart: background pauses and foreground does not auto-resume
+00:04 +38: All tests passed!

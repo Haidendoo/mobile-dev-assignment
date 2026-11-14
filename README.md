@@ -1,4 +1,23 @@
-# Forest Sokoban — Assignment 01
+# Forest Sokoban: The Lost Seeds
+
+**Current work: A02 Android implementation has started.**
+
+- [Android application and Windows setup](app/README.md)
+- [Current progress and next tasks](project-step.md)
+- [Foundation verification and gameplay preview](docs/a02/verification.md)
+- [Approved A02 implementation plan](docs/a02/implementation-plan.md)
+- [Updated A02 API design contract](docs/a02/openapi.json)
+
+The first implementation milestone provides a playable twelve-level offline
+campaign foundation with MVVM, SQLite saves, and automated tests. Story/audio,
+online rankings, email OTP and verified challenges are still pending. The updated
+report in `rp/A1_Mobile_dev.zip` defines the A02 scope.
+
+## Historical A01 package
+
+The section below describes the original five-level A01 draft. Its generator and
+artifacts remain available for reference; they do not describe the current A02
+implementation status or the updated twelve-level scope.
 
 An English specification and design package for a small Android box-pushing puzzle game by a two-person team. The mobile application is planned for A02.
 

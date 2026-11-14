@@ -1,0 +1,104 @@
+# Forest Sokoban — Android application
+
+Version 0.1.0 is the A02 campaign foundation. It implements twelve bundled puzzles,
+chapter unlocking, movement/pushing, Undo, confirmed Restart, pause, monotonic active
+time, SQLite save/restore, personal bests, and transactional local score outbox.
+
+Story, audio/settings, online publishing, Auth/OTP and verified challenges remain
+on the A02 roadmap. The outbox stores pending results locally; this build does not
+send them. This is not the final A02 submission.
+
+## Windows setup
+
+1. Install [Git for Windows](https://git-scm.com/downloads/win) and
+   [Android Studio](https://developer.android.com/studio) from their official sites.
+2. From the repository root, open PowerShell and run:
+
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\tools\setup-windows.ps1 -InstallFlutter
+   ```
+
+   This installs Flutter **3.50.0 / Dart 3.14.0** in your local application-data
+   folder, verifies the SDK checksum, and adds its `bin` directory to your user PATH.
+   Without `-InstallFlutter`, the script only checks the environment. Close and
+   reopen PowerShell after installation. If scripts are disallowed by your system,
+   follow the [official manual installation](https://docs.flutter.dev/install/manual)
+   instead, choosing Flutter 3.50.0 from the archive.
+3. Complete Android Studio's Setup Wizard. In SDK Manager install Android API 36,
+   SDK Build-Tools, Platform-Tools, Command-line Tools, and Android Emulator. Use
+   Android Studio's bundled full JDK or a full JDK 21 installation. A Java runtime
+   alone is insufficient: Gradle also needs `javac`. CI uses Temurin JDK 21.
+4. Run `flutter doctor --android-licenses` and `flutter doctor -v` in PowerShell.
+5. Create and start an Android virtual device using Device Manager. Enable CPU
+   virtualization if the emulator requests it. Alternatively connect an Android
+   10+ phone with USB debugging enabled.
+
+Keep the Windows development checkout on a Windows filesystem, for example
+`C:\Projects\forest-sokoban`. Use Windows Flutter with Windows SDK/emulator. The
+current WSL checkout can be used independently with a Linux SDK; mixing Windows
+and Linux SDK/cache paths is not part of this setup.
+
+## Run
+
+From the repository root:
+
+```powershell
+cd app
+flutter pub get --enforce-lockfile
+flutter devices
+flutter run -d <device-id>
+```
+
+Replace `<device-id>` with an ID printed by `flutter devices`. No Supabase project,
+account, secrets, or network connection is required at runtime for this foundation.
+Initial SDK/package/Gradle downloads need network access.
+
+Use the on-screen D-pad. On a keyboard, arrow keys/WASD move and U undoes.
+Movement and successful Undo each cost one Step; blocked taps cost zero. A saved
+attempt loads paused. Starting another level replaces the single unfinished save
+only after confirmation. Personal progress is retained.
+
+## Checks and builds
+
+```powershell
+dart format --output=none --set-exit-if-changed lib test
+flutter analyze --no-pub
+flutter test --no-pub
+flutter build apk --debug --target-platform android-arm64 --no-pub
+```
+
+The arm64 APK is at `build/app/outputs/flutter-apk/app-debug.apk`. For an x86_64
+emulator use `flutter run`, which chooses the device architecture automatically.
+For a universal debug APK omit `--target-platform`. Install on an arm64 phone:
+
+```powershell
+adb install -r build/app/outputs/flutter-apk/app-debug.apk
+```
+
+Release packaging/signing and physical-device acceptance are later A02 tasks.
+The generated release configuration currently uses development signing; it must
+be replaced for the final signed handoff. Do not commit signing keys.
+
+In this WSL workspace, a local SDK is available in the ignored `.toolchains`
+directory. From `app`, use `bash ../tools/flutterw analyze --no-pub` or
+`bash ../tools/flutterw test --no-pub`. The local SDK is not included in Git.
+
+## Architecture
+
+`lib/domain` contains immutable boards, attempts and pure puzzle/progression rules.
+`lib/data` implements SQLite transactions behind `CampaignRepository`.
+`lib/viewmodels` commits serialized intents before publishing board state.
+`lib/ui` draws original vector artwork and handles navigation/controls.
+
+The twelve maps match Appendix A of the v1.1 report. No game screenshot, Figma
+background raster, or third-party artwork is bundled. The baseline design assets
+are references; visual polish remains pending.
+
+Tests cover reference solutions, restore validation, timing, transaction rollback,
+completion idempotency, score ordering, lifecycle, dialogs, and two landscape sizes
+at 1.3x text. Host tests are not Android emulator/device acceptance or benchmarks.
+
+A device smoke test is supplied but has not been executed here. On a clean test
+installation, run `flutter test integration_test -d <android-device-id>` (optionally
+in airplane mode). Clear test application data first if an existing save would
+trigger a replacement confirmation. Never clear an actual player's data for a test.

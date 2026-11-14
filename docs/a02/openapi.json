@@ -1,0 +1,2223 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Forest Sokoban: The Lost Seeds — A01 design contract",
+    "version": "1.1-r1",
+    "description": "Proposed consolidated contract, not deployed. Campaign L01-L12; asynchronous challenge pool L01-L05/v1 only. Auth link/OTP provider REST operations intentionally not specified before SDK/config verification. Optional cloud campaign sync excluded."
+  },
+  "servers": [
+    {
+      "url": "https://PROJECT_REF.supabase.co",
+      "description": "Placeholder project; replace at A02 setup."
+    }
+  ],
+  "x-artifact-status": "proposed-design-static-validation-only",
+  "paths": {
+    "/auth/v1/signup": {
+      "post": {
+        "operationId": "createAnonymousGuest",
+        "summary": "SDK-managed anonymous identity",
+        "description": "Operation inherited from baseline PDF. Verify anonymous sign-in endpoint/SDK settings at A02. No claim of deployed Auth configuration.",
+        "security": [
+          {
+            "ProjectKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmptyAuthRequest"
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/submit_score": {
+      "post": {
+        "operationId": "submitScore",
+        "summary": "Submit claimed campaign result idempotently",
+        "description": "Owner is JWT auth.uid(). Unique (user,submission UUID). Identical retry returns duplicate with stable received_at; changed payload conflicts. is_personal_best is evaluated at response time. No server solution replay. Score caps affect online eligibility only.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreRequest"
+              },
+              "example": {
+                "p_submission_id": "20000000-0000-4000-8000-000000000001",
+                "p_level_id": "L01",
+                "p_level_version": 1,
+                "p_steps": 2,
+                "p_elapsed_ms": 3200
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreReceipt"
+                },
+                "example": {
+                  "submission_id": "20000000-0000-4000-8000-000000000001",
+                  "status": "accepted",
+                  "is_personal_best": true,
+                  "received_at": "2026-11-01T08:00:04Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT, ROOM_FULL, SELF_JOIN, ALREADY_SUBMITTED or ROOM_NOT_WAITING",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/get_leaderboard": {
+      "post": {
+        "operationId": "getLeaderboard",
+        "summary": "Public best-per-user top 20 for one level/version",
+        "description": "Known empty level returns entries=[]. Rank steps, elapsed_ms, server receipt timestamp, submission UUID ascending. No raw auth IDs/email. Unknown version is 404.",
+        "security": [
+          {
+            "ProjectKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaderboardRequest"
+              },
+              "example": {
+                "p_level_id": "L01",
+                "p_level_version": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Leaderboard"
+                },
+                "example": {
+                  "level_id": "L01",
+                  "level_version": 1,
+                  "generated_at": "2026-11-01T08:00:05Z",
+                  "entries": [
+                    {
+                      "rank": 1,
+                      "display_name": "Guest-7F2A90C1D4",
+                      "steps": 2,
+                      "elapsed_ms": 3200
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/create_challenge": {
+      "post": {
+        "operationId": "createChallenge",
+        "summary": "Create waiting room for L01-L05/v1",
+        "description": "Request UUID is unique per user and bound to level/version. Same key and payload returns immutable creation receipt, even when room state later changes. Current state requires get_challenge_status. Code CSPRNG, unique; join_deadline=creation server time+24h.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChallengeRequest"
+              },
+              "example": {
+                "p_request_id": "11111111-1111-4111-8111-111111111111",
+                "p_level_id": "L03",
+                "p_level_version": 1
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateChallengeReceipt"
+                },
+                "example": {
+                  "room_id": "22222222-2222-4222-8222-222222222222",
+                  "invite_code": "F8K2Q7RM",
+                  "status": "waiting",
+                  "level_id": "L03",
+                  "level_version": 1,
+                  "server_time": "2026-11-01T14:00:00Z",
+                  "join_deadline": "2026-11-02T14:00:00Z"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT, ROOM_FULL, SELF_JOIN, ALREADY_SUBMITTED or ROOM_NOT_WAITING",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/join_challenge": {
+      "post": {
+        "operationId": "joinChallenge",
+        "summary": "Join waiting room using invite code",
+        "description": "JWT user must differ from host. Rate limit <=10 attempts/user/min. Lock room atomically; enforce two slots. Second join starts room and sets play_deadline=server now+24h. Existing opponent retry returns current snapshot; host self-join conflicts.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JoinChallengeRequest"
+              },
+              "example": {
+                "p_invite_code": "F8K2Q7RM"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomSnapshot"
+                },
+                "example": {
+                  "room_id": "22222222-2222-4222-8222-222222222222",
+                  "status": "active",
+                  "level_id": "L03",
+                  "level_version": 1,
+                  "server_time": "2026-11-02T13:30:00Z",
+                  "join_deadline": "2026-11-02T14:00:00Z",
+                  "play_deadline": "2026-11-03T13:30:00Z",
+                  "participants": [
+                    {
+                      "role": "self",
+                      "display_name": "Guest-7F2A90C1D4",
+                      "state": "pending",
+                      "verified_steps": null
+                    },
+                    {
+                      "role": "opponent",
+                      "display_name": "Guest-A123456789",
+                      "state": "pending",
+                      "verified_steps": null
+                    }
+                  ],
+                  "outcome": "pending",
+                  "winner": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT, ROOM_FULL, SELF_JOIN, ALREADY_SUBMITTED or ROOM_NOT_WAITING",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "ROOM_EXPIRED or SUBMISSION_TOO_LATE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/get_challenge_status": {
+      "post": {
+        "operationId": "getChallengeStatus",
+        "summary": "Read member-only room state",
+        "description": "Only participant can read; room ID does not authorize. Derive expiry using server time even without cleanup jobs. Return expired/canceled/completed snapshots as HTTP 200. Include invite_code only for host of waiting room. Relative roles/outcome, no raw opponent IDs/email/trace.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomIdRequest"
+              },
+              "example": {
+                "p_room_id": "22222222-2222-4222-8222-222222222222"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomSnapshot"
+                },
+                "example": {
+                  "room_id": "22222222-2222-4222-8222-222222222222",
+                  "status": "active",
+                  "level_id": "L03",
+                  "level_version": 1,
+                  "server_time": "2026-11-02T15:00:00Z",
+                  "join_deadline": "2026-11-02T14:00:00Z",
+                  "play_deadline": "2026-11-03T13:30:00Z",
+                  "participants": [
+                    {
+                      "role": "self",
+                      "display_name": "Guest-7F2A90C1D4",
+                      "state": "verified",
+                      "verified_steps": 10
+                    },
+                    {
+                      "role": "opponent",
+                      "display_name": "Guest-A123456789",
+                      "state": "pending",
+                      "verified_steps": null
+                    }
+                  ],
+                  "outcome": "pending",
+                  "winner": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/list_my_challenges": {
+      "post": {
+        "operationId": "listMyChallenges",
+        "summary": "Discover own rooms after login",
+        "description": "Owner derived from JWT, no user filter accepted. At most 20 summaries, newest first by (created_at,room_id). Opaque cursor for next page. Expiry and relative outcomes computed at read; no invite code returned. Must client discovery follows cursors as needed to recover all own waiting/active rooms. Extended terminal-history browsing UI is a Should refinement. Cached responses are scoped by authenticated user.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListChallengesRequest"
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomList"
+                },
+                "example": {
+                  "server_time": "2026-11-02T15:00:00Z",
+                  "rooms": [],
+                  "next_cursor": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/rest/v1/rpc/cancel_challenge": {
+      "post": {
+        "operationId": "cancelChallenge",
+        "summary": "Host cancels waiting room",
+        "description": "Only host and only waiting room before join deadline. Atomically lock against concurrent join. Already canceled retry returns current canceled snapshot. Active/completed cannot cancel; expired returns ROOM_EXPIRED.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomIdRequest"
+              },
+              "example": {
+                "p_room_id": "22222222-2222-4222-8222-222222222222"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomSnapshot"
+                },
+                "example": {
+                  "room_id": "22222222-2222-4222-8222-222222222222",
+                  "status": "canceled",
+                  "level_id": "L03",
+                  "level_version": 1,
+                  "server_time": "2026-11-02T15:00:00Z",
+                  "join_deadline": "2026-11-02T14:00:00Z",
+                  "play_deadline": null,
+                  "participants": [
+                    {
+                      "role": "self",
+                      "display_name": "Guest-7F2A90C1D4",
+                      "state": "pending",
+                      "verified_steps": null
+                    }
+                  ],
+                  "outcome": "canceled",
+                  "winner": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT, ROOM_FULL, SELF_JOIN, ALREADY_SUBMITTED or ROOM_NOT_WAITING",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "ROOM_EXPIRED or SUBMISSION_TOO_LATE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        }
+      }
+    },
+    "/functions/v1/submit-challenge": {
+      "post": {
+        "operationId": "submitChallenge",
+        "summary": "Replay and accept one solved trace per participant",
+        "description": "Body <=262144 bytes UTF-8; 1..5000 valid actions. Canonical map from room. Count moves/pushes/valid undos as one; no blocked/empty undo/post-solved actions. Restart resets local attempt and is absent from trace. Existing same owner/UUID/digest receipt returns duplicate even after expiry; changed digest conflicts. Finalizer atomically rechecks server now < play_deadline and unique(room,user), inserts receipt and computes outcome. Smaller verified_steps wins; equality draw. Does not update campaign progress or personal leaderboard. Require verified user claims and room membership in handler, not verify_jwt alone. Publishable key or service secret without user JWT cannot authenticate a player. Admin finalizer actor comes only from verified claims; client cannot execute finalizer.",
+        "security": [
+          {
+            "ProjectKey": [],
+            "UserJWT": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChallengeSubmitRequest"
+              },
+              "example": {
+                "room_id": "44444444-4444-4444-8444-444444444444",
+                "submission_id": "33333333-3333-4333-8333-333333333333",
+                "actions": [
+                  {
+                    "type": "move",
+                    "direction": "R"
+                  },
+                  {
+                    "type": "move",
+                    "direction": "R"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "One JSON object; successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChallengeReceipt"
+                },
+                "example": {
+                  "submission_id": "33333333-3333-4333-8333-333333333333",
+                  "status": "accepted",
+                  "verification": "solved",
+                  "verified_steps": 2,
+                  "verified_at": "2026-11-02T15:00:00Z",
+                  "room_status": "active",
+                  "outcome": "pending",
+                  "winner": null
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_ARGUMENT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "AUTH_REQUIRED; gateway/provider envelope may differ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "FORBIDDEN or NOT_ROOM_MEMBER",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "LEVEL_NOT_FOUND, ROOM_NOT_FOUND or INVALID_INVITE_CODE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "IDEMPOTENCY_CONFLICT, ROOM_FULL, SELF_JOIN, ALREADY_SUBMITTED or ROOM_NOT_WAITING",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "410": {
+            "description": "ROOM_EXPIRED or SUBMISSION_TOO_LATE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "PAYLOAD_TOO_LARGE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "INVALID_TRACE, UNSOLVED_LEVEL or UNKNOWN_LEVEL_VERSION",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RpcError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "RATE_LIMITED; honor Retry-After when supplied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Optional provider/server retry delay",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "SERVER_ERROR; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Temporary service unavailable; preserve pending payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/RpcError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/GatewayError"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected provider/gateway failure; normalize without dropping local data."
+          }
+        },
+        "x-example-room-context": {
+          "level_id": "L01",
+          "level_version": 1
+        },
+        "x-accepted-auth-mode": "verified-user-jwt-only"
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ProjectKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "apikey",
+        "description": "Client publishable project key, never service-role secret."
+      },
+      "UserJWT": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Authenticated anonymous or email-linked user."
+      }
+    },
+    "schemas": {
+      "LevelId": {
+        "type": "string",
+        "enum": [
+          "L01",
+          "L02",
+          "L03",
+          "L04",
+          "L05",
+          "L06",
+          "L07",
+          "L08",
+          "L09",
+          "L10",
+          "L11",
+          "L12"
+        ]
+      },
+      "ChallengeLevelId": {
+        "type": "string",
+        "enum": [
+          "L01",
+          "L02",
+          "L03",
+          "L04",
+          "L05"
+        ]
+      },
+      "LevelVersion": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "InviteCode": {
+        "type": "string",
+        "pattern": "^[A-Z0-9]{8}$"
+      },
+      "RoomStatus": {
+        "type": "string",
+        "enum": [
+          "waiting",
+          "active",
+          "completed",
+          "expired",
+          "canceled"
+        ]
+      },
+      "Outcome": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "win",
+          "loss",
+          "draw",
+          "no_winner",
+          "canceled"
+        ]
+      },
+      "Winner": {
+        "type": "string",
+        "enum": [
+          "self",
+          "opponent",
+          null
+        ],
+        "nullable": true
+      },
+      "ScoreRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "p_level_id": {
+            "$ref": "#/components/schemas/LevelId"
+          },
+          "p_level_version": {
+            "$ref": "#/components/schemas/LevelVersion"
+          },
+          "p_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "p_elapsed_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400000
+          }
+        },
+        "required": [
+          "p_submission_id",
+          "p_level_id",
+          "p_level_version",
+          "p_steps",
+          "p_elapsed_ms"
+        ]
+      },
+      "ScoreReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "duplicate"
+            ]
+          },
+          "is_personal_best": {
+            "type": "boolean"
+          },
+          "received_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "submission_id",
+          "status",
+          "is_personal_best",
+          "received_at"
+        ]
+      },
+      "LeaderboardRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_level_id": {
+            "$ref": "#/components/schemas/LevelId"
+          },
+          "p_level_version": {
+            "$ref": "#/components/schemas/LevelVersion"
+          }
+        },
+        "required": [
+          "p_level_id",
+          "p_level_version"
+        ]
+      },
+      "DisplayName": {
+        "type": "string",
+        "pattern": "^Guest-[0-9A-F]{10}$"
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "rank": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          },
+          "display_name": {
+            "$ref": "#/components/schemas/DisplayName"
+          },
+          "steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "elapsed_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 86400000
+          }
+        },
+        "required": [
+          "rank",
+          "display_name",
+          "steps",
+          "elapsed_ms"
+        ]
+      },
+      "Leaderboard": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "level_id": {
+            "$ref": "#/components/schemas/LevelId"
+          },
+          "level_version": {
+            "$ref": "#/components/schemas/LevelVersion"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/LeaderboardEntry"
+            }
+          }
+        },
+        "required": [
+          "level_id",
+          "level_version",
+          "generated_at",
+          "entries"
+        ]
+      },
+      "CreateChallengeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "p_level_id": {
+            "$ref": "#/components/schemas/ChallengeLevelId"
+          },
+          "p_level_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          }
+        },
+        "required": [
+          "p_request_id",
+          "p_level_id",
+          "p_level_version"
+        ]
+      },
+      "CreateChallengeReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "invite_code": {
+            "$ref": "#/components/schemas/InviteCode"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "waiting"
+            ]
+          },
+          "level_id": {
+            "$ref": "#/components/schemas/ChallengeLevelId"
+          },
+          "level_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "join_deadline": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "room_id",
+          "invite_code",
+          "status",
+          "level_id",
+          "level_version",
+          "server_time",
+          "join_deadline"
+        ]
+      },
+      "JoinChallengeRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_invite_code": {
+            "$ref": "#/components/schemas/InviteCode"
+          }
+        },
+        "required": [
+          "p_invite_code"
+        ]
+      },
+      "RoomIdRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_room_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "p_room_id"
+        ]
+      },
+      "ListChallengesRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "p_cursor": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          }
+        }
+      },
+      "Participant": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "self",
+              "opponent"
+            ]
+          },
+          "display_name": {
+            "$ref": "#/components/schemas/DisplayName"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "verified",
+              "timed_out"
+            ]
+          },
+          "verified_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000,
+            "nullable": true
+          }
+        },
+        "required": [
+          "role",
+          "display_name",
+          "state",
+          "verified_steps"
+        ]
+      },
+      "RoomSnapshot": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RoomStatus"
+          },
+          "level_id": {
+            "$ref": "#/components/schemas/ChallengeLevelId"
+          },
+          "level_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "join_deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "play_deadline": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "participants": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "items": {
+              "$ref": "#/components/schemas/Participant"
+            }
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          },
+          "winner": {
+            "$ref": "#/components/schemas/Winner"
+          },
+          "invite_code": {
+            "$ref": "#/components/schemas/InviteCode"
+          }
+        },
+        "required": [
+          "room_id",
+          "status",
+          "level_id",
+          "level_version",
+          "server_time",
+          "join_deadline",
+          "play_deadline",
+          "participants",
+          "outcome",
+          "winner"
+        ]
+      },
+      "RoomSummary": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RoomStatus"
+          },
+          "level_id": {
+            "$ref": "#/components/schemas/ChallengeLevelId"
+          },
+          "level_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "join_deadline": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "play_deadline": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          },
+          "winner": {
+            "$ref": "#/components/schemas/Winner"
+          }
+        },
+        "required": [
+          "room_id",
+          "status",
+          "level_id",
+          "level_version",
+          "created_at",
+          "join_deadline",
+          "play_deadline",
+          "outcome",
+          "winner"
+        ]
+      },
+      "RoomList": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "server_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rooms": {
+            "type": "array",
+            "maxItems": 20,
+            "items": {
+              "$ref": "#/components/schemas/RoomSummary"
+            }
+          },
+          "next_cursor": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "server_time",
+          "rooms",
+          "next_cursor"
+        ]
+      },
+      "MoveAction": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "move"
+            ]
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "U",
+              "D",
+              "L",
+              "R"
+            ]
+          }
+        },
+        "required": [
+          "type",
+          "direction"
+        ]
+      },
+      "UndoAction": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "undo"
+            ]
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "ChallengeAction": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/MoveAction"
+          },
+          {
+            "$ref": "#/components/schemas/UndoAction"
+          }
+        ]
+      },
+      "ChallengeSubmitRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "room_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 5000,
+            "items": {
+              "$ref": "#/components/schemas/ChallengeAction"
+            }
+          }
+        },
+        "required": [
+          "room_id",
+          "submission_id",
+          "actions"
+        ]
+      },
+      "ChallengeReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "submission_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "duplicate"
+            ]
+          },
+          "verification": {
+            "type": "string",
+            "enum": [
+              "solved"
+            ]
+          },
+          "verified_steps": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000
+          },
+          "verified_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "room_status": {
+            "$ref": "#/components/schemas/RoomStatus"
+          },
+          "outcome": {
+            "$ref": "#/components/schemas/Outcome"
+          },
+          "winner": {
+            "$ref": "#/components/schemas/Winner"
+          }
+        },
+        "required": [
+          "submission_id",
+          "status",
+          "verification",
+          "verified_steps",
+          "verified_at",
+          "room_status",
+          "outcome",
+          "winner"
+        ]
+      },
+      "RpcError": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": "string",
+            "nullable": true
+          },
+          "hint": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "details",
+          "hint"
+        ]
+      },
+      "GatewayError": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Provider/gateway error envelope; normalize separately from controlled RPC errors."
+      },
+      "AuthSession": {
+        "type": "object",
+        "description": "Baseline SDK-managed provider session shape. Re-verify pinned SDK/provider configuration at A02; persist secrets only through secure adapter.",
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "description": "Runtime secret, never log/commit."
+          },
+          "refresh_token": {
+            "type": "string",
+            "description": "Runtime secret, never log/commit."
+          },
+          "token_type": {
+            "type": "string",
+            "enum": [
+              "bearer"
+            ]
+          },
+          "expires_in": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "is_anonymous": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "is_anonymous"
+            ]
+          }
+        },
+        "required": [
+          "access_token",
+          "refresh_token",
+          "token_type",
+          "expires_in",
+          "user"
+        ]
+      },
+      "EmptyAuthRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "maxProperties": 0
+      }
+    }
+  },
+  "x-active-campaign-level-versions": {
+    "L01": 1,
+    "L02": 1,
+    "L03": 1,
+    "L04": 1,
+    "L05": 1,
+    "L06": 2,
+    "L07": 2,
+    "L08": 2,
+    "L09": 2,
+    "L10": 2,
+    "L11": 2,
+    "L12": 2
+  },
+  "x-auth-integration": {
+    "mode": "manual-email-otp-only",
+    "supabase_flutter": "2.18.3",
+    "supabase": "2.16.5",
+    "gotrue": "2.27.3",
+    "link_verification_type": "email_change",
+    "sign_in_verification_type": "email",
+    "sign_in_should_create_user": false,
+    "mobile_auth_callback": "none",
+    "project_smoke_test_status": "pending"
+  }
+}

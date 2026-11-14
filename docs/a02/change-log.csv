@@ -1,0 +1,4 @@
+id,date,change,rationale,affected_requirements,review_status
+A02-001,2026-11-14,Adopt updated twelve-level report for implementation,User approved Android A02 plan,FR-01 through FR-28 excluding FR-17,Awaiting team review
+A02-002,2026-11-14,Pin Flutter 3.50.0 and Material UI package,Toolchain selected from official stable release metadata for first build,NFR-01 NFR-10 and build gate,Awaiting team review
+A02-003,2026-11-14,Use original vector foundation artwork,Provide runnable gameplay while production artwork and visual parity remain pending,NFR-09 NFR-10 SCR-01 SCR-02 SCR-04,Awaiting visual review

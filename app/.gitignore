@@ -1,0 +1,13 @@
+.dart_tool/
+.flutter-plugins-dependencies
+.packages
+.pub/
+build/
+coverage/
+android/local.properties
+android/.gradle/
+android/captures/
+android/**/GeneratedPluginRegistrant.java
+*.iml
+.idea/
+build-test.log
