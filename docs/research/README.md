@@ -4,7 +4,16 @@
 
 Desk research was performed using the primary sources cited in section 2 of the specification. No participant interviews or usability sessions have been conducted by the assistant. There are no real quotes, participant metrics, validated personas, or peer reviews in this package.
 
-The two persona sketches in the specification are **proto-personas**. Replace or revise them after collecting evidence; do not submit them as interview-derived findings.
+The personas in main.tex are hypothetical design models. Actual participant research can be recorded separately using the templates below.
+
+## Scenario-based requirements analysis
+
+Section 2 of main.tex uses four hypothetical profiles: Minh Anh (P01), Duc Huy (P02), Quang Bao (P03), and Thu Trang (P04). Names, ages, play-session ranges, and responses are fictional design assumptions. Findings F-01–F-06 connect the scenarios to requirements and three user personas.
+
+- [User scenarios](user-scenarios.csv)
+- [Scenario findings and decisions](scenario-findings.csv)
+
+The scenario records are separate from the participant research templates below. They document design reasoning and do not represent completed interviews or measured usability results.
 
 ## Interviews: recruit 3–5 students
 

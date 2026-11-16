@@ -1,0 +1,5 @@
+profile_id,fictional_name,age,usage_context,typical_play_minutes,scenario_response,design_concern,related_findings,record_type
+P01,Minh Anh,20,Commuting student; frequent app switching; unreliable Wi-Fi,5-10,I only have a few minutes. I want to return to the same board.,Offline access; exact-board resume; story skipping,F-01;F-04,hypothetical
+P02,Duc Huy,21,Student who deliberately replays puzzles and compares personal bests,10-15,"If I undo, why did the counter go up?",Explain Undo cost; compare whole attempts; skip previously read dialogue,F-02;F-04,hypothetical
+P03,Quang Bao,22,Student who shares puzzles with a friend whose free time differs,8-12,We cannot play together at the same time. Can I send a code?,Invitation code; server deadline; accepted status; identity versus backup,F-03;F-06,hypothetical
+P04,Thu Trang,20,Student uses personal music and enlarged text; calls may interrupt play,15-20,"I keep my own music on, but a push sound would help.",Independent Music/SFX controls; visible labels; paused restore,F-01;F-05,hypothetical

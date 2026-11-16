@@ -1,0 +1,7 @@
+finding_id,profile_ids,analysis,design_decision,requirement_ids,basis
+F-01,P01;P04,Interruptions and connectivity changes affect short-session continuity,Offline campaign; persist acknowledged actions; restore paused,FR-01;FR-06;FR-08;FR-09,scenario_analysis
+F-02,P02,Undo may be interpreted as reducing the Step count,Retain +1 Step for valid Undo; explain the rule; provide confirmed Restart,FR-04;FR-05;FR-07;FR-15,scenario_analysis
+F-03,P03,Different schedules and ambiguous submission states complicate competition,Invitation-based asynchronous rooms; visible deadlines; pending/verified/rejected states,FR-24;FR-25;FR-26;FR-27;FR-28,scenario_analysis
+F-04,P01;P02,Story preferences differ between first playthroughs and replay,Next/Skip/Replay; offline archive; completion-based unlocks,FR-18;FR-19;FR-20,scenario_analysis
+F-05,P04,Audio preference depends on personal music and context,Independent persisted Music/SFX controls; required information visible,FR-16;FR-21;NFR-09;NFR-20,scenario_analysis
+F-06,P03,Email linking can create an expectation of campaign backup,Explain online identity recovery separately from local progress; cloud sync remains Could,FR-11;FR-22;FR-23;FR-29,scenario_analysis
