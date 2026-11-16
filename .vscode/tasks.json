@@ -1,0 +1,46 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Flutter: Analyze (WSL)",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/tools/flutterw", "analyze", "--no-pub"],
+      "options": {"cwd": "${workspaceFolder}/app"},
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Test (WSL)",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/tools/flutterw", "test", "--no-pub"],
+      "options": {"cwd": "${workspaceFolder}/app"},
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Android: Build emulator APK (WSL)",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/tools/flutterw", "build", "apk", "--debug", "--target-platform", "android-x64", "--no-pub"],
+      "options": {"cwd": "${workspaceFolder}/app"},
+      "group": {"kind": "build", "isDefault": true},
+      "problemMatcher": []
+    },
+    {
+      "label": "Android: Start Windows emulator",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/tools/windows-emulator.sh", "start"],
+      "problemMatcher": []
+    },
+    {
+      "label": "Android: Build and install on Windows emulator",
+      "dependsOn": "Android: Build emulator APK (WSL)",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/tools/windows-emulator.sh", "install"],
+      "problemMatcher": []
+    }
+  ]
+}
