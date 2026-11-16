@@ -1,0 +1,15 @@
+{
+  "build": "debug",
+  "apk": "app/build/app/outputs/flutter-apk/app-debug.apk",
+  "sha256": "d64690a42e588a00c258db1136588e6e969ffde8fba9d0fee594d896671139e0",
+  "bytes": 185090512,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "host_tests_passed": 50,
+  "analysis": "No issues found",
+  "emulator": "emulator-5554 / Android API 37",
+  "installed": true,
+  "physical_samsung_s21_plus": "Pending"
+}

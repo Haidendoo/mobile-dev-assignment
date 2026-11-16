@@ -2,8 +2,12 @@
 
 **Current work: A02 Android implementation has started.**
 
-- [Android application and Windows setup](app/README.md)
+See the [latest development summary](docs/a02/development-summary.md) for completed changes, verification and remaining A02 work.
+
+- [WSL + VS Code development](docs/a02/wsl-development.md)
+- [Android application and alternative Windows setup](app/README.md)
 - [Current progress and next tasks](project-step.md)
+- [Current Figma UI and feature availability](docs/a02/figma-ui-migration.md)
 - [Foundation verification and gameplay preview](docs/a02/verification.md)
 - [Approved A02 implementation plan](docs/a02/implementation-plan.md)
 - [Updated A02 API design contract](docs/a02/openapi.json)

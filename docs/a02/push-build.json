@@ -1,0 +1,16 @@
+{
+  "feature": "Push and altar motion",
+  "build": "debug",
+  "sha256": "2f46e150da56477efb8c5ba53cf8c5b86d8ff042b2bae0817c1947bc9aac22c3",
+  "bytes": 185103457,
+  "abis": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "host_tests_passed": 53,
+  "analysis": "No issues found",
+  "slide_ms": 170,
+  "feedback_ms": 280,
+  "victory_presentation_delay_ms": 300,
+  "physical_samsung_s21_plus": "Pending"
+}

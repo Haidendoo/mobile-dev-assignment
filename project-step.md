@@ -4,32 +4,35 @@
 **Platform:** Android 10+, landscape, Flutter/Dart.
 **Language:** English. **Team:** two members; names not yet supplied.
 **Schedule:** four relative weeks; actual mid-term/final dates not supplied.
-**Last updated:** 14 November 2026 (Asia/Bangkok).
+**Last updated:** 16 November 2026 (Asia/Bangkok).
+**Development environment:** WSL Ubuntu + VS Code, using the existing Linux toolchain.
+**Demo device:** Samsung Galaxy S21+ (confirmed by the user on 16 November 2026).
+See [the WSL guide](docs/a02/wsl-development.md).
 
 ## Current status
 
-A02 implementation has started. The first campaign foundation is implemented.
+A02 implementation has started. The offline campaign and migration of active screens to the supplied Figma UI are implemented.
 This is not the final A02 submission. Read [the application README](app/README.md)
-for Windows setup/run commands and [the frozen plan](docs/a02/implementation-plan.md)
+for run commands and alternative Windows setup and [the frozen plan](docs/a02/implementation-plan.md)
 for the full scope and weekly ownership.
 
 | Area | Status |
 |---|---|
-| Flutter toolchain | Flutter 3.50.0 / Dart 3.14.0 installed locally in ignored `.toolchains`; Windows setup script supplied |
+| Flutter toolchain | WSL Linux Flutter 3.50.0 / Dart 3.14.0, JDK 21 and Android SDK configured; VS Code uses the Linux SDK |
 | Android project | Generated, Android 10+ minimum, landscape, Gradle wrapper and dependency lockfile included |
 | Canonical content | All 12 updated boards/versions and reference solutions bundled |
 | Pure Dart rules | Movement, single-crate push, collision, Undo cost, history validation, completion freeze |
 | Architecture | Views → ChangeNotifier ViewModel → pure domain / repository → SQLite |
-| Campaign UI | Home, chapter/level selection, Guide, gameplay, paused/completed overlays and confirmation dialogs |
+| Campaign UI | Active screens use the supplied Figma designs; Play/Continue, full More, map/chapters, swipe gameplay with three themes, animated pushes/altar feedback, dialogs and result UI |
 | Local persistence | Save/resume, personal best pairs, atomic completion and pending score outbox |
-| Automated checks | See actual results in `docs/a02/verification.md`; not device acceptance |
-| Android build | Debug arm64 APK built; API 29 minimum, API 36 target; APK signature verified |
-| Windows setup/runtime | Script and instructions prepared; not run on the user's Windows installation |
+| Automated checks | Latest push animation polish: 53 host tests passed; see `docs/a02/push-motion.md`; full device acceptance remains pending |
+| Android build | Current Figma debug APK includes ARM64 (Samsung S21+) and x86_64; built in WSL and installed/launched on API 37 Windows emulator; physical acceptance pending |
+| Windows setup/runtime | User reported successful x86_64 APK build and game launch on Android API 37 emulator on 15 November; full manual acceptance remains pending |
 | Research/Figma | Updated report/mockups used as references; viewer/runtime and user-study evidence not revalidated |
 | Story and ending | Not implemented |
-| Music/SFX/settings | Not implemented |
+| Music/SFX/settings | Figma both-Off Settings screen present; playback and persisted controls not implemented |
 | Supabase/Auth/OTP | Not deployed or integrated |
-| Rankings/challenges | Updated contract copied; runtime integration not implemented |
+| Rankings/challenges | New Figma screens/unavailable messages present; runtime backend integration not implemented |
 | Release/device acceptance | Not executed |
 
 ## Week 1 — Foundation
@@ -40,11 +43,14 @@ for the full scope and weekly ownership.
 - [x] Implement serialized intents, active timer, pause and save restoration.
 - [x] Implement SQLite completion/progress/outbox transaction.
 - [x] Implement Home, level selection, Guide and gameplay foundation.
+- [x] Replace active foundation UI with the supplied Figma designs and swipe controls; preserve canonical maps and saved progress.
 - [x] Add core/database/widget tests and CI workflow source.
 - [x] Supply a Windows Flutter installation/check script and setup guide.
+- [x] Configure WSL + VS Code SDK paths, terminal environment, analysis/test/build and emulator tasks.
 - [x] Build a signed debug arm64 APK and repeat the build from a clean source copy in WSL.
 - [ ] Verify CI on the remote repository (workflow has not been run remotely).
-- [ ] Verify Android install/runtime on an emulator and physical device.
+- [x] Verify WSL build → Windows emulator installation and activity launch without Android Studio.
+- [ ] Complete emulator manual acceptance and physical-device validation.
 - [ ] Create Supabase local/hosted environments and prove same-ID email linking.
 - [ ] Team review of foundation artwork, architecture and baseline changes.
 
@@ -71,7 +77,7 @@ for the full scope and weekly ownership.
 ## Week 4 — Acceptance and handoff
 
 - [ ] Execute all Must/Should acceptance cases and 21 NFR checks.
-- [ ] Borrow Android hardware (4 GB RAM or more) for release performance samples.
+- [ ] Use the Samsung Galaxy S21+ demo device for release performance samples; record its actual Android version, build and device details before measuring.
 - [ ] Complete two-size layout, enlarged text, TalkBack and permission review.
 - [ ] Produce final signed release APK/checksum and perform clean-checkout build/run.
 - [ ] Complete manual results, traceability, asset sources, contribution and AI declarations.

@@ -8,7 +8,14 @@ Story, audio/settings, online publishing, Auth/OTP and verified challenges remai
 on the A02 roadmap. The outbox stores pending results locally; this build does not
 send them. This is not the final A02 submission.
 
-## Windows setup
+## Primary workflow: WSL + VS Code
+
+Use the [WSL development guide](../docs/a02/wsl-development.md). The existing Linux
+toolchain is configured for this workspace; no SDK reinstallation is needed.
+VS Code tasks analyze/test/build in WSL and can start the existing Windows emulator,
+install the APK and launch the game without opening Android Studio.
+
+## Windows setup (alternative)
 
 1. Install [Git for Windows](https://git-scm.com/downloads/win) and
    [Android Studio](https://developer.android.com/studio) from their official sites.
@@ -24,11 +31,22 @@ send them. This is not the final A02 submission.
    reopen PowerShell after installation. If scripts are disallowed by your system,
    follow the [official manual installation](https://docs.flutter.dev/install/manual)
    instead, choosing Flutter 3.50.0 from the archive.
+   Downloads use `curl.exe` with resumable transfers and speed/ETA output. If a
+   transfer is interrupted, rerun the same command: the partial ZIP at
+   `%TEMP%\forest-flutter-3.50.0.zip` is retained. A checksum-verified complete ZIP
+   is reused without downloading it again. Extraction starts only after checksum
+   validation.
 3. Complete Android Studio's Setup Wizard. In SDK Manager install Android API 36,
-   SDK Build-Tools, Platform-Tools, Command-line Tools, and Android Emulator. Use
+   SDK Build-Tools, Platform-Tools, Command-line Tools, and Android Emulator. Under
+   **SDK Tools → Show Package Details → NDK (Side by side)**, install exactly
+   **28.2.13676358**. This is Flutter 3.50.0's selected NDK; installing it explicitly
+   avoids depending on automatic NDK provisioning during the first build. Use
    Android Studio's bundled full JDK or a full JDK 21 installation. A Java runtime
    alone is insufficient: Gradle also needs `javac`. CI uses Temurin JDK 21.
-4. Run `flutter doctor --android-licenses` and `flutter doctor -v` in PowerShell.
+4. Run `flutter doctor -v` in PowerShell. If licenses are reported unaccepted, run
+   `flutter doctor --android-licenses`. New Android command-line tools may instead
+   report that `--licenses` is no longer needed; recheck doctor and accept any
+   installation license dialogs shown by SDK Manager rather than looping that command.
 5. Create and start an Android virtual device using Device Manager. Enable CPU
    virtualization if the emulator requests it. Alternatively connect an Android
    10+ phone with USB debugging enabled.
@@ -37,6 +55,28 @@ Keep the Windows development checkout on a Windows filesystem, for example
 `C:\Projects\forest-sokoban`. Use Windows Flutter with Windows SDK/emulator. The
 current WSL checkout can be used independently with a Linux SDK; mixing Windows
 and Linux SDK/cache paths is not part of this setup.
+
+### Automatic NDK installation fails
+
+If the build reports `Android sdkmanager did not install NDK 28.2.13676358`, open
+**Tools → SDK Manager → SDK Tools → Show Package Details**, expand
+**NDK (Side by side)**, select **28.2.13676358**, and apply the installation.
+Check that the SDK Location shown there matches `sdk.dir` in
+`android/local.properties`. A completed installation includes
+`ndk/28.2.13676358/source.properties` under that SDK location. Retry the build
+after SDK Manager finishes. Do not change the selected NDK version or clear all
+SDK/Gradle caches to resolve an installation failure. Official instructions:
+[Install a specific NDK version](https://developer.android.com/studio/projects/install-ndk#specific-version).
+
+### Windows Application Control blocks Dart
+
+If Windows reports that `dart.exe` was blocked by Device Guard or Application
+Control, the SDK download/extraction has already completed. Keep the installed SDK;
+re-downloading it or selecting Android Studio does not resolve an execution-policy
+block. Ask the device administrator to review the official SDK and approve it using
+the applicable application-control policy. The setup script stops on SDK startup
+errors and does not modify Windows security policy. See Microsoft's
+[App Control troubleshooting guide](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/app-control-for-business/operations/appcontrol-debugging-and-troubleshooting).
 
 ## Run
 
@@ -88,11 +128,20 @@ directory. From `app`, use `bash ../tools/flutterw analyze --no-pub` or
 `lib/domain` contains immutable boards, attempts and pure puzzle/progression rules.
 `lib/data` implements SQLite transactions behind `CampaignRepository`.
 `lib/viewmodels` commits serialized intents before publishing board state.
-`lib/ui` draws original vector artwork and handles navigation/controls.
+`lib/ui` renders the current supplied Figma designs as native Flutter widgets and handles navigation, semantic actions and swipe controls.
 
-The twelve maps match Appendix A of the v1.1 report. No game screenshot, Figma
-background raster, or third-party artwork is bundled. The baseline design assets
-are references; visual polish remains pending.
+The twelve maps match Appendix A of the v1.1 report. All active screens now use
+[the supplied Figma designs](https://www.figma.com/design/EbPr2cisVRC7wgbkLjKSp9?node-id=7-12421),
+including fresh/saved Home, full More, map/chapters, three gameplay themes,
+Pause/Restart/Level clear and guide. SVGs and all three fonts are bundled locally.
+See [UI migration and availability](../docs/a02/figma-ui-migration.md) and
+[asset provenance](../docs/a02/figma-assets-manifest.json). Reference screenshots
+are never used as runtime backgrounds.
+
+Start with **Play → The Awakening → First Steps**, then swipe on the board.
+Use **More** for the other screens. A saved campaign exposes **Continue**.
+Online account, rankings and challenge screens display unavailable messages;
+story and audio playback remain pending. These interfaces do not imply a working backend.
 
 Tests cover reference solutions, restore validation, timing, transaction rollback,
 completion idempotency, score ordering, lifecycle, dialogs, and two landscape sizes

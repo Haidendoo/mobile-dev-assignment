@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="25.92" height="25.92" viewBox="0 0 25.92 25.92" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Rune Stone">
+<path id="Shadow" d="M2.16 23.22L1.08 18.9L3.78 4.86L8.1 1.62H17.82L22.14 5.4L24.84 18.9L23.76 23.22L19.44 25.38H6.48L2.16 23.22Z" fill="#243237"/>
+<path id="Carved stone" d="M3.78 20.52V15.66L6.48 5.4L9.72 3.78H16.2L19.44 5.94L22.14 17.28L21.06 21.6L17.82 23.22H7.56L3.78 20.52Z" fill="#627C81"/>
+<path id="Face" d="M5.94 15.12L8.1 6.48L10.8 4.86H15.12L17.82 7.02L19.98 15.12L17.28 18.36H8.64L5.94 15.12Z" fill="#96A9A1"/>
+<path id="Rune" d="M12.96 7.02L16.74 11.88L12.96 16.2L9.18 11.88L12.96 7.02Z" fill="#EDD480"/>
+<path id="Rune inset" d="M12.96 9.18L15.12 11.88L12.96 14.04L10.8 11.88L12.96 9.18Z" fill="#596C65"/>
+<path id="Moss" d="M4.86 17.82H8.64V19.98H4.86V17.82ZM16.2 19.98H21.06V22.14H16.2V19.98Z" fill="#7EA06F"/>
+</g>
+</svg>

@@ -1,0 +1,4 @@
+{
+  "57:144037": "const imgAltar = \"https://www.figma.com/api/mcp/asset/88c0a14e-6076-450e-a544-c61b9ad413ef.svg\";\n\nexport default function Altar() {\n  return (\n    <div className=\"relative size-full\" data-node-id=\"57:144037\" data-name=\"Altar\">\n      <img alt=\"\" className=\"absolute block inset-0 max-w-none size-full\" src={imgAltar} />\n    </div>\n  );\n}",
+  "57:144038": "const imgAltarInlay = \"https://www.figma.com/api/mcp/asset/112bd40b-123b-4e50-884d-9bcf8bcce401.svg\";\n\nexport default function AltarInlay() {\n  return (\n    <div className=\"relative size-full\" data-node-id=\"57:144038\" data-name=\"Altar inlay\">\n      <img alt=\"\" className=\"absolute block inset-0 max-w-none size-full\" src={imgAltarInlay} />\n    </div>\n  );\n}"
+}

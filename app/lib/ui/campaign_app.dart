@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../domain/puzzle.dart';
 import '../viewmodels/campaign_view_model.dart';
-import 'board_view.dart';
+import 'figma_board.dart';
+import 'figma_dialog.dart';
+import 'figma_home.dart';
+import 'figma_scene.dart';
 import 'forest_theme.dart';
-
-enum _Page { home, levels, game, guide }
 
 class CampaignApp extends StatefulWidget {
   const CampaignApp({super.key, required this.model});
@@ -19,19 +20,53 @@ class CampaignApp extends StatefulWidget {
 
 class _CampaignAppState extends State<CampaignApp> with WidgetsBindingObserver {
   final _navigator = GlobalKey<NavigatorState>();
-  _Page _page = _Page.home;
+  final _messenger = GlobalKey<ScaffoldMessengerState>();
+  String _page = 'home';
+  String _leaderboardLevel = 'L01';
+  bool _confirmingRestart = false;
+  bool _recoveryShown = false;
+  Timer? _winTimer;
+  String? _winningAttempt;
+  bool _winVisible = false;
   CampaignViewModel get vm => widget.model;
+  bool get _playing => _page == 'game';
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    vm.addListener(_observeWin);
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    vm.removeListener(_observeWin);
+    _winTimer?.cancel();
     super.dispose();
+  }
+
+  void _observeWin() {
+    if (!vm.solved) {
+      _winTimer?.cancel();
+      _winTimer = null;
+      _winningAttempt = null;
+      _winVisible = false;
+      return;
+    }
+    final id = vm.attempt!.id;
+    if (_winningAttempt == id) return;
+    _winningAttempt = id;
+    if (MediaQuery.disableAnimationsOf(_navigator.currentContext ?? context)) {
+      _winVisible = true;
+      return;
+    }
+    // The score is already committed. Only its presentation waits for the push.
+    _winTimer = Timer(const Duration(milliseconds: 300), () {
+      if (mounted && vm.solved && vm.attempt!.id == id) {
+        setState(() => _winVisible = true);
+      }
+    });
   }
 
   @override
@@ -39,50 +74,73 @@ class _CampaignAppState extends State<CampaignApp> with WidgetsBindingObserver {
     if (state != AppLifecycleState.resumed) unawaited(vm.pause());
   }
 
-  Future<void> _home() async {
-    await vm.pause();
-    if (mounted) setState(() => _page = _Page.home);
+  void _go(String page) {
+    if (_playing) unawaited(vm.pause());
+    setState(() => _page = page);
+    if (page == '7-12213' && vm.corruptSave && !_recoveryShown) {
+      _recoveryShown = true;
+      unawaited(_recoverSave());
+    }
+  }
+
+  Future<void> _recoverSave() async {
+    if (await _confirm(
+      'Saved game unavailable',
+      'The unfinished save is damaged or incompatible. Discard it? Completed levels and personal bests are kept.',
+      'Discard save',
+    )) {
+      await vm.discardCorruptSave();
+      if (mounted && vm.error != null) _unavailable(vm.error);
+    }
   }
 
   Future<bool> _confirm(String title, String body, String action) async =>
-      await showDialog<bool>(
+      await showGeneralDialog<bool>(
         context: _navigator.currentContext!,
-        builder: (context) => AlertDialog(
-          title: Text(title),
-          content: Text(body),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+        barrierLabel: 'Cancel',
+        barrierDismissible: false,
+        barrierColor: const Color(0xc7091711),
+        pageBuilder: (context, _, _) => SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: FigmaDialog(
+              title: title,
+              body: body,
+              action: action,
+              onConfirm: () => Navigator.pop(context, true),
+              onCancel: () => Navigator.pop(context, false),
             ),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text(action),
-            ),
-          ],
+          ),
         ),
       ) ??
       false;
 
   Future<void> _start(Level level) async {
+    if (vm.busy || !vm.unlocked(level.chapter)) return;
     if (vm.hasSave &&
         !await _confirm(
           'Replace saved campaign?',
-          'Your unfinished board will be replaced. Completed levels and personal bests are kept.',
+          'Replace the unfinished board? Completed levels and personal bests are kept.',
           'Start level',
         )) {
       return;
     }
     await vm.start(level);
-    if (mounted && vm.error == null) setState(() => _page = _Page.game);
+    if (!mounted) return;
+    if (vm.error == null) {
+      setState(() => _page = 'game');
+    } else {
+      _unavailable(vm.error);
+    }
   }
 
   Future<void> _restart() async {
+    setState(() => _confirmingRestart = true);
     await vm.pause();
     if (!mounted) return;
     final confirmed = await _confirm(
-      'Restart this level?',
-      'Reset the board, Steps, active time, and Undo history?',
+      'Restart level?',
+      'Start ${vm.level!.name} over?',
       'Restart',
     );
     if (confirmed) {
@@ -90,36 +148,167 @@ class _CampaignAppState extends State<CampaignApp> with WidgetsBindingObserver {
     } else {
       vm.resume();
     }
+    if (mounted) setState(() => _confirmingRestart = false);
+  }
+
+  void _unavailable([String? feature]) {
+    _messenger.currentState!
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(
+            feature ?? 'Online services are not configured in this build. Your offline progress is kept.',
+          ),
+          duration: const Duration(seconds: 4),
+        ),
+      );
+  }
+
+  void _action(String action) {
+    if (action.startsWith('L') && RegExp(r'^L\d{2}\s').hasMatch(action)) {
+      if (_page == '24-14302') {
+        _leaderboardLevel = action.substring(0, 3);
+        _go('24-14544');
+      } else {
+        unawaited(
+          _start(vm.levels.firstWhere((l) => l.id == action.substring(0, 3))),
+        );
+      }
+      return;
+    }
+    switch (action) {
+      case 'Play':
+      case 'Chapters':
+      case 'Campaign':
+      case 'World Map':
+      case 'Levels':
+        _go('13-103');
+      case 'More':
+        _go('7-12213');
+      case 'Home':
+      case 'Play from Home  →':
+        _go('home');
+      case 'Back':
+        _go(switch (_page) {
+          '7-12213' => 'home',
+          '24-14302' => '24-14544',
+          '24-14890' => '7-14068',
+          '13-1402' || '13-1408' || '24-14562' => '13-1397',
+          _ => '7-12213',
+        });
+      case 'The Awakening':
+        _openChapter(1);
+      case 'Forgotten Ruins':
+        _openChapter(2);
+      case 'Heart of the Forest':
+        _openChapter(3);
+      case 'How to Play':
+        _go('7-14068');
+      case 'More rules':
+        _go('24-14890');
+      case 'Swipe gameplay':
+        unawaited(_start(vm.levels[1]));
+      case 'Try First Steps':
+        unawaited(_start(vm.levels.first));
+      case 'Story Archive':
+      case 'Story Archive  →':
+        _go('13-137');
+      case 'Profile':
+        _go('13-1305');
+      case 'Link email':
+        _go('13-1325');
+      case 'Sign in':
+        _go('13-1361');
+      case 'Cancel':
+        _go(_page == '13-1325' || _page == '13-1361' ? '13-1305' : '13-1397');
+      case 'Challenge':
+      case 'Challenge 1v1':
+        _go('13-1397');
+      case 'Create room':
+        _go('13-1402');
+      case 'Join room':
+        _go('13-1408');
+      case 'My Rooms':
+        _go('24-14562');
+      case 'Leaderboard':
+        _go('24-14544');
+      case 'Choose level':
+        _go('24-14302');
+      case 'Settings':
+      case 'Audio settings':
+        _go('13-1219');
+      case 'PoC Overview':
+        _go('16-89');
+      case 'Pause':
+        unawaited(vm.pause());
+      case 'Restart':
+        unawaited(_restart());
+      case 'Undo':
+        unawaited(vm.undo());
+      case 'Resume':
+        vm.resume();
+      case 'Replay':
+        unawaited(vm.restart());
+      case 'Next level':
+        final index = vm.levels.indexOf(vm.level!) + 1;
+        if (index < vm.levels.length && vm.unlocked(vm.levels[index].chapter)) {
+          unawaited(_start(vm.levels[index]));
+        } else {
+          _go('13-103');
+        }
+      case 'Music':
+      case 'Sound effects':
+        _unavailable('Audio playback is not implemented in this build.');
+      case 'The Awakening · Intro':
+      case 'Preview ending':
+      case 'Ending · Locked':
+        _unavailable('Story scenes are not implemented in this build.');
+      default:
+        _unavailable();
+    }
+  }
+
+  void _openChapter(int chapter) {
+    _go(
+      vm.unlocked(chapter)
+          ? ['23-159', '23-193', '23-222'][chapter - 1]
+          : chapter == 2
+          ? '13-125'
+          : '13-131',
+    );
   }
 
   @override
   Widget build(BuildContext context) => MaterialApp(
     navigatorKey: _navigator,
+    scaffoldMessengerKey: _messenger,
     title: 'Forest Sokoban: The Lost Seeds',
     theme: forestTheme(),
     debugShowCheckedModeBanner: false,
-    home: Builder(
-      builder: (context) => ListenableBuilder(
-        listenable: vm,
-        builder: (context, _) => PopScope(
-          canPop: _page == _Page.home,
-          onPopInvokedWithResult: (didPop, result) {
-            if (!didPop) unawaited(_home());
-          },
-          child: Scaffold(
-            body: ForestBackdrop(
-              child: SafeArea(
-                child: vm.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : vm.levels.isEmpty
-                    ? _startupError()
-                    : switch (_page) {
-                        _Page.home => _homeView(),
-                        _Page.levels => _levelView(),
-                        _Page.game => _gameView(),
-                        _Page.guide => _guideView(),
-                      },
-              ),
+    home: ListenableBuilder(
+      listenable: vm,
+      builder: (context, _) => PopScope(
+        canPop: _page == 'home',
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) _go('home');
+        },
+        child: Scaffold(
+          body: DecoratedBox(
+            decoration: figmaHomeBackground,
+            child: SafeArea(
+              child: vm.loading
+                  ? const Center(child: CircularProgressIndicator())
+                  : vm.levels.isEmpty
+                  ? Center(
+                      child: FigmaDialog(
+                        title: 'Unable to start',
+                        body: vm.error ?? 'Game data is unavailable.',
+                        action: 'Retry',
+                        onConfirm: vm.initialize,
+                        onCancel: () {},
+                      ),
+                    )
+                  : _view(),
             ),
           ),
         ),
@@ -127,247 +316,131 @@ class _CampaignAppState extends State<CampaignApp> with WidgetsBindingObserver {
     ),
   );
 
-  Widget _startupError() => Center(
-    child: ForestPanel(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(vm.error ?? 'Game data is unavailable.'),
-          const SizedBox(height: 16),
-          FilledButton(onPressed: vm.initialize, child: const Text('Retry')),
-        ],
-      ),
-    ),
-  );
+  Widget _view() {
+    if (_page == 'home') {
+      return vm.hasSave
+          ? FigmaHome(
+              savedLevelName: vm.level?.name,
+              onContinue: vm.busy ? null : () => _go('game'),
+              onMore: vm.busy ? null : () => _go('7-12213'),
+            )
+          : FigmaScene(scene: '7-11079', onAction: _action);
+    }
+    if (_playing) return _gameView();
+    return FigmaScene(
+      scene: _page,
+      onAction: _action,
+      text: _sceneText(),
+      labels: _page == '24-14302'
+          ? {
+              for (var i = 0; i < vm.levels.length; i++)
+                '24:${14356 + 2 * i}':
+                    '${vm.levels[i].id} / v${vm.levels[i].version}',
+            }
+          : const {},
+    );
+  }
 
-  Widget _menu(String title, Widget child) => Padding(
-    padding: const EdgeInsets.all(16),
-    child: ForestPanel(
-      padding: 16,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              if (_page != _Page.home)
-                IconButton(
-                  onPressed: _home,
-                  tooltip: 'Home',
-                  icon: const Icon(Icons.home_outlined),
-                ),
-              Expanded(
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: gold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Expanded(child: child),
-        ],
-      ),
-    ),
-  );
-
-  Widget _homeView() => _menu(
-    'FOREST SOKOBAN',
-    ListView(
-      children: [
-        const Text(
-          'THE LOST SEEDS',
-          style: TextStyle(
-            fontSize: 22,
-            letterSpacing: 2,
-            color: gold,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Text('Restore a quiet forest, one thoughtful move at a time.'),
-        const SizedBox(height: 20),
-        Wrap(
-          spacing: 12,
-          runSpacing: 12,
-          children: [
-            _menuButton(
-              'Campaign',
-              Icons.map_outlined,
-              () => setState(() => _page = _Page.levels),
-            ),
-            _menuButton(
-              'Continue',
-              Icons.play_arrow,
-              vm.hasSave
-                  ? () {
-                      setState(() => _page = _Page.game);
-                    }
-                  : null,
-            ),
-            _menuButton(
-              'Guide',
-              Icons.menu_book_outlined,
-              () => setState(() => _page = _Page.guide),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Text('${vm.completed.length}/12 levels restored  ·  Offline campaign'),
-        if (!vm.hasSave)
-          const Text(
-            'No unfinished campaign',
-            style: TextStyle(color: Color(0xFFCBD8BB)),
-          ),
-        if (vm.corruptSave) ...[
-          const SizedBox(height: 12),
-          const Text(
-            'The saved board is incompatible or damaged. Your completed levels are kept.',
-          ),
-          TextButton(
-            onPressed: () async {
-              if (await _confirm(
-                'Discard damaged save?',
-                'Only the unfinished campaign save will be removed.',
-                'Discard',
-              )) {
-                await vm.discardCorruptSave();
-              }
-            },
-            child: const Text('Discard unfinished save'),
-          ),
-        ],
-        if (vm.error != null)
-          Text(vm.error!, style: const TextStyle(color: gold)),
-      ],
-    ),
-  );
-
-  Widget _menuButton(String label, IconData icon, VoidCallback? action) =>
-      SizedBox(
-        width: 180,
-        child: FilledButton.icon(
-          onPressed: vm.busy ? null : action,
-          icon: Icon(icon),
-          label: Text(label),
-        ),
-      );
-
-  Widget _levelView() => _menu(
-    'World map',
-    ListView(
-      children: [
-        for (var chapter = 1; chapter <= 3; chapter++) ...[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text(
-              'CH-0$chapter · ${chapterNames[chapter - 1]}',
-              style: const TextStyle(
-                fontSize: 18,
-                color: gold,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          if (!vm.unlocked(chapter))
-            Text(
-              chapter == 2
-                  ? 'Complete L01–L05 to enter the ruins.'
-                  : 'Complete L01–L09 to reach the Ancient Tree.',
-            ),
-          Wrap(
-            spacing: 10,
-            runSpacing: 10,
-            children: [
-              for (final level in vm.levels.where((l) => l.chapter == chapter))
-                SizedBox(
-                  width: 178,
-                  child: FilledButton(
-                    onPressed: vm.unlocked(chapter) && !vm.busy
-                        ? () => _start(level)
-                        : null,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              vm.completed.contains(level.key)
-                                  ? Icons.check_circle_outline
-                                  : vm.unlocked(chapter)
-                                  ? Icons.spa_outlined
-                                  : Icons.lock_outline,
-                              size: 18,
-                            ),
-                            const SizedBox(width: 6),
-                            Text(level.id),
-                          ],
-                        ),
-                        Text(level.name, textAlign: TextAlign.center),
-                        if (vm.progress[level.key] case final score?)
-                          Text(
-                            '${score.steps} Steps · ${formatTime(score.elapsedMs)}',
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ],
-    ),
-  );
-
-  Widget _guideView() => _menu(
-    'Guardian’s guide',
-    ListView(
-      children: const [
-        _GuideEntry(
-          Icons.open_with,
-          'Move one cell',
-          'Tap the direction buttons. You can also use arrow keys or WASD on a keyboard.',
-        ),
-        _GuideEntry(
-          Icons.inventory_2_outlined,
-          'Push Light Seeds',
-          'Push one crate onto each diamond altar. You cannot pull crates or push two at once.',
-        ),
-        _GuideEntry(
-          Icons.undo,
-          'Undo costs one Step',
-          'A legal move or push adds one Step. Undo restores the previous board and also adds '
-              'one Step. Blocked taps add nothing. Undo never rewinds active time.',
-        ),
-        _GuideEntry(
-          Icons.restart_alt,
-          'Escape a deadlock',
-          'A crate in a corner without an altar can become stuck. Undo or confirm Restart '
-              'to try again. Restart resets Steps and time.',
-        ),
-        _GuideEntry(
-          Icons.pause,
-          'Take a break',
-          'Pause or leave the app to freeze active time. Continue restores the saved board '
-              'paused. One unfinished campaign is kept on this device.',
-        ),
-        _GuideEntry(
-          Icons.forest_outlined,
-          'Restore all three chapters',
-          'Complete the first five levels to unlock Forgotten Ruins, then the first nine '
-              'to unlock Heart of the Forest. Choose any order within an unlocked chapter.',
-        ),
-      ],
-    ),
-  );
+  Map<String, String> _sceneText() {
+    if (_page == '13-103') {
+      return {
+        '38:89997': vm.unlocked(2) ? 'Explore  →' : 'Locked',
+        '38:90021': vm.unlocked(3) ? 'Explore  →' : 'Locked',
+      };
+    }
+    if (const {'23-159', '23-193', '23-222'}.contains(_page)) {
+      const ids = [
+        '38:89511',
+        '38:89526',
+        '38:89544',
+        '38:89562',
+        '38:89583',
+        '38:89693',
+        '38:89711',
+        '38:89729',
+        '38:89750',
+        '38:89853',
+        '38:89874',
+        '38:89895',
+      ];
+      return {
+        for (var i = 0; i < vm.levels.length; i++)
+          if (vm.progress[vm.levels[i].key] case final score?)
+            ids[i]: 'Best ${score.steps} · ${formatTime(score.elapsedMs)}'
+          else if (i >= 2)
+            ids[i]: '${vm.levels[i].initial.crates.length} pieces',
+      };
+    }
+    if (_page == '24-14544') {
+      return {
+        '24:14546': 'Casual · Unverified · $_leaderboardLevel',
+        '24:14548': 'Online services are not configured. No cached rankings.',
+      };
+    }
+    if (_page == '24-14302') {
+      return {
+        for (var i = 0; i < vm.levels.length; i++)
+          '24:${14357 + 2 * i}':
+              '${vm.levels[i].id} / v${vm.levels[i].version}',
+      };
+    }
+    if (_page == '13-1408') {
+      return {
+        '13:1413': 'Online services are not configured.',
+        '13:1465': 'Unavailable',
+      };
+    }
+    if (_page == '13-1402') {
+      return {
+        '13:1407': 'Online services are not configured.',
+        '25:8783': '03   Two Deliveries · v1',
+      };
+    }
+    if (_page == '13-137') {
+      return {'13:142': 'Story scenes are not implemented in this build.'};
+    }
+    if (_page == '24-14562') {
+      return {'24:14566': 'Online rooms are not available in this build.'};
+    }
+    if (_page == '13-1325' || _page == '13-1361') {
+      return {
+        _page == '13-1325' ? '13:1330' : '13:1366':
+            'Email services are not configured.',
+        _page == '13-1325' ? '13:1338' : '13:1374': 'Email unavailable',
+      };
+    }
+    if (_page == '16-89') {
+      return {
+        '16:122': 'Offline campaign build · Online services pending',
+        '16:110': 'Online services pending',
+        '16:114': 'Guest · Email services pending',
+        '16:106': 'Online services pending',
+      };
+    }
+    return {};
+  }
 
   Widget _gameView() {
     final level = vm.level!;
     final attempt = vm.attempt!;
+    if (vm.solved && _winVisible) {
+      final best = vm.progress[level.key];
+      return FigmaScene(
+        scene: '7-11999',
+        onAction: _action,
+        hidden:
+            best?.steps == attempt.steps && best?.elapsedMs == attempt.elapsedMs
+            ? const {}
+            : {'Personal best chip', '7:12202', '7:12204'},
+        text: {
+          '7:12193':
+              'LEVEL ${level.id.substring(1)} · ${level.name.toUpperCase()}',
+          '7:12197': '${attempt.steps}',
+          '7:12200': formatTime(attempt.elapsedMs),
+          '7:12212': 'Saved on this device · Score awaiting upload',
+        },
+      );
+    }
     return Focus(
       autofocus: true,
       onKeyEvent: (_, event) {
@@ -392,240 +465,115 @@ class _CampaignAppState extends State<CampaignApp> with WidgetsBindingObserver {
         }
         return KeyEventResult.ignored;
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'CH-0${level.chapter} · ${chapterNames[level.chapter - 1]}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: gold, fontSize: 12),
-                      ),
-                      Text(
-                        '${level.id} · ${level.name}',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+      child: Stack(
+        children: [
+          if (level.chapter > 1)
+            _laterChapterGame()
+          else
+            FigmaScene(
+              scene: '7-11289',
+              onAction: _action,
+              colors: {
+                '7:11637': Color(
+                  attempt.history.isEmpty ? 0xffa0b09d : 0xfffff1d2,
                 ),
-                _metric('Steps', '${attempt.steps}'),
-                const SizedBox(width: 12),
-                _metric(
-                  'Time',
-                  formatTime(vm.solved ? attempt.elapsedMs : vm.elapsedMs),
+              },
+              hidden: const {'Drag board to demonstrate right swipe'},
+              text: {
+                '7:11471': 'LEVEL ${level.id.substring(1)}',
+                '7:11472': level.name,
+                '7:11474': '${attempt.steps}',
+                '7:11476': formatTime(vm.elapsedMs),
+              },
+              replacements: {
+                'First Steps · Swipe region': FigmaBoard(
+                  key: ValueKey(attempt.id),
+                  animate: !vm.paused || vm.solved,
+                  level: level,
+                  board: attempt.board,
+                  onMove: (d) => unawaited(vm.move(d)),
                 ),
-                IconButton(
-                  onPressed: vm.busy
-                      ? null
-                      : () => vm.paused ? vm.resume() : vm.pause(),
-                  tooltip: vm.paused ? 'Resume' : 'Pause',
-                  icon: Icon(vm.paused ? Icons.play_arrow : Icons.pause),
-                ),
-                IconButton(
-                  onPressed: _home,
-                  tooltip: 'Home',
-                  icon: const Icon(Icons.home_outlined),
-                ),
-              ],
+              },
+              enabled: {
+                'Pause': !vm.busy,
+                'Restart': !vm.busy,
+                'Undo': !vm.paused && !vm.busy && attempt.history.isNotEmpty,
+              },
             ),
-            const SizedBox(height: 6),
-            Expanded(
-              child: Stack(
-                children: [
-                  Row(
-                    children: [
-                      SizedBox(width: 144, child: Center(child: _dpad())),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: BoardView(level: level, board: attempt.board),
-                      ),
-                      const SizedBox(width: 8),
-                      SizedBox(
-                        width: 88,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            FilledButton(
-                              onPressed:
-                                  !vm.paused &&
-                                      !vm.busy &&
-                                      !vm.solved &&
-                                      attempt.history.isNotEmpty
-                                  ? vm.undo
-                                  : null,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.all(6),
-                              ),
-                              child: const Text('Undo'),
-                            ),
-                            const SizedBox(height: 12),
-                            FilledButton(
-                              onPressed: vm.busy || vm.solved ? null : _restart,
-                              style: FilledButton.styleFrom(
-                                padding: const EdgeInsets.all(6),
-                              ),
-                              child: const Text('Restart'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  if (vm.paused || vm.error != null || vm.solved)
-                    Positioned.fill(
-                      child: ColoredBox(
-                        color: const Color(0xBB102A25),
-                        child: Center(
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.all(8),
-                            child: ForestPanel(
-                              padding: 14,
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  maxWidth: 390,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      vm.solved
-                                          ? 'Grove restored!'
-                                          : vm.error != null
-                                          ? 'Save interrupted'
-                                          : 'Paused',
-                                      style: const TextStyle(
-                                        fontSize: 22,
-                                        color: gold,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      vm.error ??
-                                          (vm.solved
-                                              ? '${attempt.steps} Steps · ${formatTime(attempt.elapsedMs)}\nSaved on this device.'
-                                              : 'Your board is saved. Resume when you are ready.'),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
-                                      alignment: WrapAlignment.center,
-                                      children: [
-                                        if (vm.error != null)
-                                          FilledButton(
-                                            onPressed: vm.busy
-                                                ? null
-                                                : vm.retrySave,
-                                            child: const Text('Retry save'),
-                                          )
-                                        else if (!vm.solved)
-                                          FilledButton(
-                                            onPressed: vm.busy
-                                                ? null
-                                                : vm.resume,
-                                            child: const Text('Resume'),
-                                          ),
-                                        if (vm.solved) ...[
-                                          FilledButton(
-                                            onPressed: vm.busy
-                                                ? null
-                                                : vm.restart,
-                                            child: const Text('Replay'),
-                                          ),
-                                          FilledButton(
-                                            onPressed: () => setState(
-                                              () => _page = _Page.levels,
-                                            ),
-                                            child: const Text('World map'),
-                                          ),
-                                        ],
-                                        TextButton(
-                                          onPressed: _home,
-                                          child: const Text('Home'),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
+          if ((vm.paused && !_confirmingRestart && !vm.solved) ||
+              vm.error != null)
+            Positioned.fill(
+              child: FigmaScene(
+                scene: '7-12632',
+                dialogOnly: true,
+                onAction: (action) {
+                  if (action == 'Resume' && vm.error != null) {
+                    unawaited(vm.retrySave());
+                  } else {
+                    _action(action);
+                  }
+                },
+                text: {
+                  '7:12991': vm.error != null ? 'Save interrupted' : 'Paused',
+                  '7:12992': vm.error != null
+                      ? 'Your last saved board is preserved.'
+                      : level.name,
+                  '7:16440': vm.error != null ? 'Retry save' : 'Resume',
+                },
+                enabled: {'Resume': !vm.busy},
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Text(
-                vm.feedback,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12),
-              ),
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
 
-  Widget _metric(String label, String value) => Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Text(label, style: const TextStyle(fontSize: 12, color: gold)),
-      Text(
-        value,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    ],
-  );
-
-  Widget _dpad() {
-    Widget direction(Direction direction, IconData icon) => SizedBox(
-      width: 48,
-      height: 48,
-      child: IconButton.filledTonal(
-        onPressed: vm.paused || vm.busy || vm.solved
-            ? null
-            : () => vm.move(direction),
-        tooltip: 'Move ${direction.name}',
-        icon: Icon(icon),
-        style: IconButton.styleFrom(
-          padding: EdgeInsets.zero,
-          backgroundColor: const Color(0xFF705735),
+  Widget _laterChapterGame() {
+    final level = vm.level!;
+    final attempt = vm.attempt!;
+    final ruins = level.chapter == 2;
+    return FigmaScene(
+      scene: ruins ? '23-110' : '23-138',
+      onAction: _action,
+      hidden: ruins
+          ? const {
+              'Rune Stone 1',
+              'Rune Stone 2',
+              'Rune Stone 3',
+              'Ruin Owl',
+              'Swipe →',
+            }
+          : const {
+              'Hollow Stump 1',
+              'Hollow Stump 2',
+              'Hollow Stump 3',
+              'Hollow Stump 4',
+              'Heartwood Fox',
+              'Swipe ↑',
+            },
+      replacements: {
+        ruins ? 'Classic board L06 v4' : 'Classic board L10 v4': FigmaBoard(
+          key: ValueKey(attempt.id),
+          animate: !vm.paused || vm.solved,
+          level: level,
+          board: attempt.board,
+          onMove: (d) => unawaited(vm.move(d)),
         ),
-      ),
-    );
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        direction(Direction.up, Icons.arrow_upward),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            direction(Direction.left, Icons.arrow_back),
-            direction(Direction.down, Icons.arrow_downward),
-            direction(Direction.right, Icons.arrow_forward),
-          ],
-        ),
-      ],
+      },
+      text: {
+        ruins ? '24:2718' : '24:8416':
+            'LEVEL ${level.id.substring(1)}  /  V${level.version}',
+        ruins ? '24:2719' : '24:8417': level.name,
+        ruins ? '24:2750' : '24:8466': 'Steps ${attempt.steps}',
+        ruins ? '27:8672' : '27:8676': 'Time  ${formatTime(vm.elapsedMs)}',
+        ruins ? '38:90261' : '38:90281':
+            '${attempt.board.crates.where(level.goals.contains).length} / ${level.goals.length}',
+      },
+      enabled: {
+        'Pause': !vm.busy,
+        'Restart': !vm.busy,
+        'Undo': !vm.busy && attempt.history.isNotEmpty,
+      },
     );
   }
 }
@@ -634,18 +582,4 @@ String formatTime(int ms) {
   final seconds = ms ~/ 1000;
   return '${(seconds ~/ 60).toString().padLeft(2, '0')}:'
       '${(seconds % 60).toString().padLeft(2, '0')}';
-}
-
-class _GuideEntry extends StatelessWidget {
-  const _GuideEntry(this.icon, this.title, this.body);
-  final IconData icon;
-  final String title;
-  final String body;
-  @override
-  Widget build(BuildContext context) => ListTile(
-    contentPadding: const EdgeInsets.symmetric(vertical: 6),
-    leading: Icon(icon, color: gold),
-    title: Text(title),
-    subtitle: Text(body),
-  );
 }

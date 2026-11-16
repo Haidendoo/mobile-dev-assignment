@@ -1,0 +1,69 @@
+{
+  "file_key": "EbPr2cisVRC7wgbkLjKSp9",
+  "frame_id": "7:12421",
+  "frame_name": "S21+ \u00b7 Home \u00b7 Continue",
+  "frame_size": [
+    800,
+    360
+  ],
+  "artwork_size": [
+    640,
+    360
+  ],
+  "retrieved": "2026-11-16",
+  "source": "Figma MCP get_design_context",
+  "assets": [
+    {
+      "file": "forest.svg",
+      "node_id": "7:12423",
+      "artwork_bounds": [
+        0,
+        0,
+        640,
+        360
+      ],
+      "width": "640",
+      "height": "360",
+      "sha256": "8eddda97c93366591d99109220a80f9cf1482bf1f2821719bd4a7984e6d69eac"
+    },
+    {
+      "file": "seed-crest.svg",
+      "node_id": "7:12618",
+      "artwork_bounds": [
+        42,
+        42,
+        26,
+        26
+      ],
+      "width": "26",
+      "height": "26",
+      "sha256": "9517c84b40ce072486ba647f5886de7c3dd1bbac20ac415470ad05fba00147b9"
+    },
+    {
+      "file": "arrow.svg",
+      "node_id": "I7:12627;2:102",
+      "artwork_bounds": [
+        182,
+        262.5,
+        12,
+        12
+      ],
+      "width": "12",
+      "height": "12",
+      "sha256": "8b6dbca714c0f120102c5a9b10e80336e01de62f728cb114cb04d995827a06f5"
+    },
+    {
+      "file": "dots.svg",
+      "node_id": "7:12630",
+      "artwork_bounds": [
+        100,
+        321,
+        12,
+        12
+      ],
+      "width": "12",
+      "height": "12",
+      "sha256": "2bf89a7ae63d82ec0d94cf77659e2955dd12288d405bbad0fde015a3874d6519"
+    }
+  ]
+}

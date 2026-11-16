@@ -12,18 +12,26 @@ void main() {
   ) async {
     await app.main();
     await tester.pumpAndSettle(const Duration(milliseconds: 100));
-    await tester.tap(find.text('Campaign'));
+    await tester.tap(find.bySemanticsLabel('Play'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('The Awakening'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('First Steps'));
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Move right'));
+    await tester.drag(
+      find.byKey(const ValueKey('puzzle-swipe')),
+      const Offset(65, 0),
+    );
     await tester.pumpAndSettle();
-    await tester.tap(find.byTooltip('Move right'));
+    await tester.drag(
+      find.byKey(const ValueKey('puzzle-swipe')),
+      const Offset(65, 0),
+    );
     await tester.pumpAndSettle();
-    expect(find.text('Grove restored!'), findsOneWidget);
-    await tester.tap(find.widgetWithText(FilledButton, 'Replay'));
+    expect(find.text('Level clear'), findsOneWidget);
+    await tester.tap(find.text('Replay'));
     await tester.pumpAndSettle();
-    expect(find.text('Grove restored!'), findsNothing);
-    expect(find.text('L01 · First Steps'), findsOneWidget);
+    expect(find.text('Level clear'), findsNothing);
+    expect(find.text('First Steps'), findsOneWidget);
   });
 }
